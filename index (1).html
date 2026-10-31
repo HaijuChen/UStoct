@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AI Trading Desk · Control Room</title>
+  <style>
+    :root {
+      --bg: #070b14; --panel: #0d1525; --border: #1a2740;
+      --text: #e2e8f0; --muted: #64748b;
+      --yellow: #facc15; --red: #f87171; --purple: #c084fc;
+      --blue: #60a5fa; --green: #4ade80; --orange: #fb923c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.45; min-height: 100vh;
+      background-image: radial-gradient(ellipse at 20% 0%, rgba(34,197,94,0.05) 0%, transparent 50%);
+    }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      background: rgba(7,11,20,0.95); position: sticky; top: 0; z-index: 50;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 12px; color: #000;
+      box-shadow: 0 0 12px rgba(34,197,94,0.35);
+    }
+    .brand h1 { font-size: 14px; font-weight: 700; }
+    .brand p { font-size: 10px; color: var(--muted); }
+    .status-pill {
+      font-size: 11px; padding: 4px 10px; border-radius: 999px;
+      background: #052e16; color: #86efac; border: 1px solid #166534;
+    }
+    .tabs-mini {
+      display: flex; gap: 6px; padding: 8px 12px; border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .tabs-mini button {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); border-radius: 6px; padding: 5px 12px; font-size: 12px; cursor: pointer;
+      white-space: nowrap;
+    }
+    .tabs-mini button.active { background: #1e293b; color: #fff; border-color: #334155; }
+
+    .control-bar { padding: 12px 14px; border-bottom: 1px solid var(--border); background: #0a101c; }
+    .control-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .control-row input {
+      flex: 1; background: #0d1525; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 15px;
+    }
+    .control-row input:focus { outline: none; border-color: #22c55e; }
+    .btn {
+      background: #22c55e; color: #000; border: none; border-radius: 8px;
+      padding: 10px 14px; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap;
+    }
+    .btn:active { opacity: 0.85; }
+    .btn.ghost { background: transparent; color: #94a3b8; border: 1px solid #334155; }
+    .btn.scan { background: #1e3a5f; color: #93c5fd; border: 1px solid #3b82f6; }
+    .extra-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 520px) { .extra-inputs { grid-template-columns: 1fr; } }
+    label { font-size: 10px; color: var(--muted); display: block; margin-bottom: 2px; }
+    select, textarea, .settings-input {
+      width: 100%; background: #0d1525; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 8px 10px; color: #fff; font-size: 13px;
+    }
+    textarea { resize: vertical; min-height: 48px; }
+
+    .scan-box {
+      margin: 0 12px 10px; padding: 10px 12px;
+      background: #0d1525; border: 1px solid #1e3a5f; border-radius: 10px; display: none;
+    }
+    .scan-box.show { display: block; }
+    .scan-title { font-size: 12px; font-weight: 700; color: #93c5fd; margin-bottom: 8px; }
+    .scan-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .scan-chip {
+      background: #132033; border: 1px solid #1e3a5f; border-radius: 8px;
+      padding: 6px 10px; font-size: 12px; cursor: pointer;
+      display: flex; flex-direction: column; min-width: 72px;
+    }
+    .scan-chip:active { border-color: #22c55e; }
+    .scan-chip .sym { font-weight: 800; }
+    .scan-chip .chg { font-size: 11px; }
+    .up { color: #4ade80; } .down { color: #f87171; }
+
+    .quote-banner {
+      margin: 0 12px 8px; padding: 12px 14px;
+      background: linear-gradient(135deg, #0d1525, #132033);
+      border: 1px solid #1e3a5f; border-radius: 10px; display: none;
+    }
+    .quote-banner.show { display: block; }
+    .price-big { font-size: 22px; font-weight: 800; }
+
+    .room {
+      padding: 10px 12px; display: grid;
+      grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    @media (min-width: 720px) { .room { grid-template-columns: repeat(3, 1fr); } }
+
+    .agent {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .agent-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 11px; border-bottom: 1px solid var(--border);
+    }
+    .agent-face {
+      width: 30px; height: 30px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .agent.scout .agent-face { background: #422006; }
+    .agent.news .agent-face { background: #450a0a; }
+    .agent.sentiment .agent-face { background: #3b0764; }
+    .agent.charts .agent-face { background: #1e3a5f; }
+    .agent.risk .agent-face { background: #052e16; }
+    .agent.decision .agent-face { background: #431407; }
+    .agent-name { font-size: 11px; font-weight: 700; }
+    .agent-role { font-size: 9px; color: var(--muted); }
+    .agent.scout .agent-name { color: var(--yellow); }
+    .agent.news .agent-name { color: var(--red); }
+    .agent.sentiment .agent-name { color: var(--purple); }
+    .agent.charts .agent-name { color: var(--blue); }
+    .agent.risk .agent-name { color: var(--green); }
+    .agent.decision .agent-name { color: var(--orange); }
+    .agent-body { padding: 9px 11px 11px; min-height: 80px; font-size: 12px; }
+    .placeholder { color: var(--muted); font-size: 11px; }
+    .score-badge {
+      display: inline-block; font-weight: 800; font-size: 13px;
+      padding: 1px 6px; border-radius: 5px; margin-right: 4px;
+    }
+    .agent.scout .score-badge { background: #422006; color: var(--yellow); }
+    .agent.news .score-badge { background: #450a0a; color: var(--red); }
+    .agent.sentiment .score-badge { background: #3b0764; color: var(--purple); }
+    .agent.decision .score-badge { background: #431407; color: var(--orange); }
+    .reasons { margin-top: 5px; padding-left: 12px; color: #94a3b8; font-size: 10px; }
+    .metric {
+      display: flex; justify-content: space-between;
+      padding: 2px 0; border-bottom: 1px solid #1a2740; font-size: 11px;
+    }
+    .metric:last-child { border-bottom: none; }
+    .final-action {
+      margin-top: 6px; padding: 7px 9px; border-radius: 7px;
+      font-weight: 700; text-align: center; font-size: 12px;
+    }
+    .final-action.approve { background: #052e16; color: #86efac; border: 1px solid #166534; }
+    .final-action.reduce { background: #422006; color: #fde68a; border: 1px solid #854d0e; }
+    .final-action.reject { background: #450a0a; color: #fecaca; border: 1px solid #991b1b; }
+
+    .news-item {
+      font-size: 11px; padding: 5px 0; border-bottom: 1px solid #1a2740; color: #cbd5e1;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item a { color: #93c5fd; text-decoration: none; }
+
+    .bottom-bar {
+      padding: 10px 14px; border-top: 1px solid var(--border);
+      background: #0a101c; position: sticky; bottom: 0;
+      display: none; gap: 8px;
+    }
+    .bottom-bar.show { display: flex; }
+    .bottom-bar .btn { flex: 1; }
+
+    .panel-view { display: none; padding: 14px; }
+    .panel-view.show { display: block; }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px; margin-bottom: 12px;
+    }
+    .card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .card-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+    .trade-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px; margin-bottom: 8px;
+      border-left: 3px solid #334155;
+    }
+    .trade-item.win { border-left-color: #22c55e; }
+    .trade-item.loss { border-left-color: #ef4444; }
+    .trade-head { display: flex; justify-content: space-between; font-weight: 700; font-size: 13px; }
+    .trade-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .footer-note { text-align: center; font-size: 10px; color: #475569; padding: 14px 12px 24px; }
+    .loading { color: #94a3b8; font-size: 12px; }
+    .error { color: #f87171; font-size: 12px; }
+    .success { color: #4ade80; font-size: 12px; }
+    .sent-bar {
+      height: 6px; background: #1e293b; border-radius: 3px; margin: 8px 0 4px; overflow: hidden;
+    }
+    .sent-bar-fill {
+      height: 100%; border-radius: 3px; transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">AI</div>
+      <div>
+        <h1>Trading Control Room</h1>
+        <p>自動掃描 · 新聞 · 情緒強化</p>
+      </div>
+    </div>
+    <div class="status-pill">模擬模式</div>
+  </div>
+
+  <div class="tabs-mini">
+    <button class="active" id="tabRoom" onclick="showView('room')">控制室</button>
+    <button id="tabJournal" onclick="showView('journal')">交易日誌</button>
+    <button id="tabSettings" onclick="showView('settings')">設定</button>
+  </div>
+
+  <!-- ROOM -->
+  <div id="viewRoom">
+    <div class="control-bar">
+      <div class="control-row">
+        <input type="text" id="symbol" placeholder="輸入代號 或 先掃描機會" />
+        <button class="btn scan" onclick="scanOpportunities()">掃描機會</button>
+        <button class="btn" onclick="runFullAuto()">自動判斷</button>
+      </div>
+      <div class="extra-inputs">
+        <div>
+          <label>新聞（可自動抓取，也可手動補充）</label>
+          <textarea id="newsInput" placeholder="系統會嘗試自動抓新聞..."></textarea>
+        </div>
+        <div>
+          <label>你感覺的社群情緒（輔助參考）</label>
+          <select id="moodInput">
+            <option value="bullish">偏多（理性）</option>
+            <option value="hype">過熱 / 大家在喊單</option>
+            <option value="neutral" selected>中性 / 沒感覺</option>
+            <option value="bearish">偏空</option>
+          </select>
+          <label style="margin-top:6px;">真實資金 ($)</label>
+          <input type="number" id="realCap" value="100" class="settings-input" />
+        </div>
+      </div>
+      <div id="status" style="margin-top:6px;"></div>
+    </div>
+
+    <div class="scan-box" id="scanBox">
+      <div class="scan-title">今日機會掃描（點選即可分析）</div>
+      <div class="scan-list" id="scanList"></div>
+    </div>
+
+    <div class="quote-banner" id="quoteBanner"></div>
+
+    <div class="room">
+      <div class="agent scout">
+        <div class="agent-header">
+          <div class="agent-face">🟡</div>
+          <div><div class="agent-name">SCOUT</div><div class="agent-role">機會掃描員</div></div>
+        </div>
+        <div class="agent-body" id="outScout"><div class="placeholder">等待指令...</div></div>
+      </div>
+      <div class="agent news">
+        <div class="agent-header">
+          <div class="agent-face">🔴</div>
+          <div><div class="agent-name">NEWS</div><div class="agent-role">新聞分析員</div></div>
+        </div>
+        <div class="agent-body" id="outNews"><div class="placeholder">等待指令...</div></div>
+      </div>
+      <div class="agent sentiment">
+        <div class="agent-header">
+          <div class="agent-face">🟣</div>
+          <div><div class="agent-name">SENTIMENT</div><div class="agent-role">市場情緒員</div></div>
+        </div>
+        <div class="agent-body" id="outSentiment"><div class="placeholder">等待指令...</div></div>
+      </div>
+      <div class="agent charts">
+        <div class="agent-header">
+          <div class="agent-face">🔵</div>
+          <div><div class="agent-name">CHARTS</div><div class="agent-role">圖表分析員</div></div>
+        </div>
+        <div class="agent-body" id="outCharts"><div class="placeholder">等待指令...</div></div>
+      </div>
+      <div class="agent risk">
+        <div class="agent-header">
+          <div class="agent-face">🟢</div>
+          <div><div class="agent-name">RISK</div><div class="agent-role">風險管理員</div></div>
+        </div>
+        <div class="agent-body" id="outRisk"><div class="placeholder">等待指令...</div></div>
+      </div>
+      <div class="agent decision">
+        <div class="agent-header">
+          <div class="agent-face">🟠</div>
+          <div><div class="agent-name">DECISION</div><div class="agent-role">最終決策員</div></div>
+        </div>
+        <div class="agent-body" id="outDecision"><div class="placeholder">等待指令...</div></div>
+      </div>
+    </div>
+
+    <div class="bottom-bar" id="bottomBar">
+      <button class="btn ghost" onclick="clearAll()">清除</button>
+      <button class="btn" onclick="addToJournal()">加入模擬日誌</button>
+    </div>
+  </div>
+
+  <!-- JOURNAL -->
+  <div class="panel-view" id="viewJournal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-size:13px;font-weight:700;">模擬交易紀錄</div>
+      <button class="btn ghost" style="width:auto;padding:5px 10px;font-size:11px;" onclick="clearTrades()">清除全部</button>
+    </div>
+    <div id="tradeList"><p style="color:#64748b;font-size:12px;">尚無紀錄</p></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="panel-view" id="viewSettings">
+    <div class="card">
+      <div class="card-title">Finnhub API Key</div>
+      <div class="card-desc">
+        免費申請：<a href="https://finnhub.io" target="_blank" style="color:#22c55e;">finnhub.io</a><br>
+        有金鑰後，新聞抓取與報價會更穩定。
+      </div>
+      <label>貼上你的 API Key</label>
+      <input type="text" id="finnhubKey" class="settings-input" placeholder="例如 cxxxxx..." />
+      <button class="btn" style="margin-top:10px;" onclick="saveFinnhubKey()">儲存金鑰</button>
+      <div id="settingsMsg" style="margin-top:8px;font-size:12px;"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">情緒評分說明（已強化）</div>
+      <div class="card-desc">
+        市場情緒員現在綜合以下因素：<br>
+        1. 新聞極性（利多 / 利空關鍵字數量）<br>
+        2. 價格動能（漲跌幅強度）<br>
+        3. 成交量是否放大<br>
+        4. 你手動選的社群感覺（權重較低）<br>
+        5. 過熱偵測（大漲 + 過熱情緒會扣分）
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    工具只負責執行與建議，最終交易決策仍要由你決定。<br>
+    本介面僅供模擬與教育用途，不構成投資建議。
+  </div>
+
+  <script>
+    let lastAuto = null;
+
+    function showView(name) {
+      document.getElementById('viewRoom').style.display = name === 'room' ? 'block' : 'none';
+      document.getElementById('viewJournal').classList.toggle('show', name === 'journal');
+      document.getElementById('viewSettings').classList.toggle('show', name === 'settings');
+      document.getElementById('tabRoom').classList.toggle('active', name === 'room');
+      document.getElementById('tabJournal').classList.toggle('active', name === 'journal');
+      document.getElementById('tabSettings').classList.toggle('active', name === 'settings');
+      if (name === 'journal') renderTrades();
+      if (name === 'settings') loadSettings();
+    }
+
+    function saveFinnhubKey() {
+      const key = document.getElementById('finnhubKey').value.trim();
+      localStorage.setItem('ai_desk_finnhub', key);
+      document.getElementById('settingsMsg').innerHTML = key
+        ? '<span class="success">金鑰已儲存</span>'
+        : '<span class="error">已清除金鑰</span>';
+    }
+    function loadSettings() {
+      document.getElementById('finnhubKey').value = localStorage.getItem('ai_desk_finnhub') || '';
+    }
+    function getFinnhubKey() {
+      return localStorage.getItem('ai_desk_finnhub') || '';
+    }
+
+    // ========== Scanner ==========
+    async function scanOpportunities() {
+      document.getElementById('status').innerHTML = '<span class="loading">正在掃描今日機會股票...</span>';
+      document.getElementById('scanBox').classList.remove('show');
+      try {
+        const gainersUrl = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved?scrIds=day_gainers&count=8&formatted=false';
+        const activeUrl = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved?scrIds=most_actives&count=6&formatted=false';
+        const [gRes, aRes] = await Promise.all([fetch(gainersUrl), fetch(activeUrl)]);
+        const gData = await gRes.json();
+        const aData = await aRes.json();
+        const gainers = (gData.finance?.result?.[0]?.quotes || []).slice(0, 8);
+        const actives = (aData.finance?.result?.[0]?.quotes || []).slice(0, 6);
+        const map = {};
+        [...gainers, ...actives].forEach(q => { if (q.symbol && !map[q.symbol]) map[q.symbol] = q; });
+        const list = Object.values(map).slice(0, 12);
+        if (!list.length) throw new Error('暫時抓不到清單');
+        document.getElementById('scanList').innerHTML = list.map(q => {
+          const pct = q.regularMarketChangePercent || 0;
+          const cls = pct >= 0 ? 'up' : 'down';
+          const sign = pct >= 0 ? '+' : '';
+          return '<div class="scan-chip" onclick="selectSymbol(\'' + q.symbol + '\')">' +
+            '<span class="sym">' + q.symbol + '</span>' +
+            '<span class="chg ' + cls + '">' + sign + pct.toFixed(1) + '%</span></div>';
+        }).join('');
+        document.getElementById('scanBox').classList.add('show');
+        document.getElementById('status').innerHTML = '<span class="success">掃描完成，點選股票即可分析</span>';
+      } catch (err) {
+        document.getElementById('status').innerHTML = '<span class="error">掃描失敗：' + err.message + '</span>';
+      }
+    }
+    function selectSymbol(sym) {
+      document.getElementById('symbol').value = sym;
+      runFullAuto();
+    }
+
+    // ========== Data ==========
+    async function fetchQuote(symbol) {
+      symbol = symbol.toUpperCase();
+      try {
+        const url = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v8/finance/chart/' + symbol + '?range=1d&interval=1d';
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('來源錯誤');
+        const data = await res.json();
+        const meta = data.chart?.result?.[0]?.meta;
+        if (!meta?.regularMarketPrice) throw new Error('找不到代號');
+        const price = meta.regularMarketPrice;
+        const prev = meta.chartPreviousClose || meta.previousClose || price;
+        return {
+          symbol, price,
+          change: price - prev,
+          changePct: ((price - prev) / prev) * 100,
+          volume: meta.regularMarketVolume || 0,
+          prev
+        };
+      } catch (e) {
+        const key = getFinnhubKey();
+        if (key) {
+          const r = await fetch('https://finnhub.io/api/v1/quote?symbol=' + symbol + '&token=' + key);
+          const d = await r.json();
+          if (d.c > 0) return { symbol, price: d.c, change: d.d || 0, changePct: d.dp || 0, volume: 0, prev: d.pc };
+        }
+        throw e;
+      }
+    }
+
+    async function fetchNews(symbol) {
+      try {
+        const url = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v1/finance/search?q=' + encodeURIComponent(symbol) + '&newsCount=6';
+        const res = await fetch(url);
+        const data = await res.json();
+        const news = data.news || [];
+        if (news.length) {
+          return news.slice(0, 5).map(n => ({ title: n.title || '', link: n.link || '' }));
+        }
+      } catch (e) {}
+      const key = getFinnhubKey();
+      if (key) {
+        try {
+          const to = new Date().toISOString().slice(0, 10);
+          const from = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+          const url = 'https://finnhub.io/api/v1/company-news?symbol=' + symbol + '&from=' + from + '&to=' + to + '&token=' + key;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (Array.isArray(data) && data.length) {
+            return data.slice(0, 5).map(n => ({ title: n.headline || n.summary || '', link: n.url || '' }));
+          }
+        } catch (e) {}
+      }
+      return [];
+    }
+
+    // ========== Improved Sentiment ==========
+    function analyzeNewsPolarity(text) {
+      const t = (text || '').toLowerCase();
+      let bull = 0, bear = 0;
+      const bullWords = ['beat','優於','超預期','升評','upgrade','突破','新高','利多','成長','強勁','record','surge','soars','rally','bullish','positive','strong','growth','outperform','raise','buy'];
+      const bearWords = ['miss','低於','降評','downgrade','調查','訴訟','裁員','虧損','利空','疲弱','delay','falls','drop','plunge','bearish','negative','weak','cut','sell','lawsuit','probe'];
+      bullWords.forEach(w => { if (t.includes(w)) bull++; });
+      bearWords.forEach(w => { if (t.includes(w)) bear++; });
+      return { bull, bear, net: bull - bear };
+    }
+
+    function judgeScout(q) {
+      let score = 50, reasons = [];
+      if (Math.abs(q.changePct) >= 5) { score += 20; reasons.push('單日波動 ≥5%'); }
+      else if (Math.abs(q.changePct) >= 3) { score += 12; reasons.push('單日波動 ≥3%'); }
+      else if (Math.abs(q.changePct) >= 1.5) { score += 5; reasons.push('有一定波動'); }
+      else { score -= 10; reasons.push('波動較小'); }
+      if (q.changePct > 0) { score += 8; reasons.push('今日上漲'); } else { score -= 5; reasons.push('今日下跌'); }
+      if (q.volume > 5e6) { score += 10; reasons.push('成交量較大'); }
+      else if (q.volume > 1e6) { score += 5; reasons.push('成交量尚可'); }
+      score = Math.max(0, Math.min(100, score));
+      const text = score >= 70 ? '機會分數較高' : (score >= 45 ? '中等機會' : '機會較弱');
+      return { score, text, reasons };
+    }
+
+    function judgeNews(text, newsList) {
+      const combined = (text || '') + ' ' + (newsList || []).map(n => n.title).join(' ');
+      if (!combined.trim()) return { score: 50, text: '無新聞，中性', reasons: [], items: [] };
+      const pol = analyzeNewsPolarity(combined);
+      let score = 50 + pol.net * 12;
+      score = Math.max(0, Math.min(100, score));
+      const reasons = [];
+      if (pol.bull) reasons.push('利多關鍵字 ×' + pol.bull);
+      if (pol.bear) reasons.push('利空關鍵字 ×' + pol.bear);
+      const txt = score >= 65 ? '新聞偏利多' : (score >= 40 ? '新聞中性' : '新聞偏利空');
+      return { score, text: txt, reasons, items: newsList || [], polarity: pol };
+    }
+
+    /**
+     * 強化版市場情緒
+     * 綜合：新聞極性 40% + 價格動能 35% + 成交量 15% + 使用者感覺 10%
+     * 並加入「過熱扣分」
+     */
+    function judgeSentiment(mood, q, newsResult) {
+      let reasons = [];
+      let priceScore = 50;
+      const absPct = Math.abs(q.changePct);
+
+      // 1. 價格動能 (0~100)
+      if (q.changePct >= 5) { priceScore = 88; reasons.push('強勢上漲 ≥5%'); }
+      else if (q.changePct >= 3) { priceScore = 78; reasons.push('明顯上漲 ≥3%'); }
+      else if (q.changePct >= 1.5) { priceScore = 68; reasons.push('溫和上漲'); }
+      else if (q.changePct >= 0.3) { priceScore = 58; reasons.push('小幅上漲'); }
+      else if (q.changePct > -0.3) { priceScore = 50; reasons.push('幾乎平盤'); }
+      else if (q.changePct > -1.5) { priceScore = 42; reasons.push('小幅下跌'); }
+      else if (q.changePct > -3) { priceScore = 32; reasons.push('明顯下跌'); }
+      else if (q.changePct > -5) { priceScore = 22; reasons.push('大幅下跌'); }
+      else { priceScore = 12; reasons.push('重挫 ≤-5%'); }
+
+      // 2. 新聞極性
+      let newsScore = 50;
+      if (newsResult && newsResult.polarity) {
+        const net = newsResult.polarity.net;
+        newsScore = Math.max(0, Math.min(100, 50 + net * 14));
+        if (net > 0) reasons.push('新聞淨利多 +' + net);
+        else if (net < 0) reasons.push('新聞淨利空 ' + net);
+        else reasons.push('新聞極性中性');
+      } else {
+        reasons.push('無足夠新聞參考');
+      }
+
+      // 3. 成交量加權
+      let volBoost = 0;
+      if (q.volume > 8e6) { volBoost = 8; reasons.push('成交量明顯放大'); }
+      else if (q.volume > 3e6) { volBoost = 4; reasons.push('成交量偏高'); }
+
+      // 4. 使用者感覺（權重低）
+      let moodAdj = 0;
+      if (mood === 'bullish') { moodAdj = 6; reasons.push('你選擇理性偏多'); }
+      else if (mood === 'hype') { moodAdj = -12; reasons.push('你感覺過熱'); }
+      else if (mood === 'bearish') { moodAdj = -8; reasons.push('你選擇偏空'); }
+
+      // 5. 過熱偵測：大漲 + 過熱情緒 或 大漲但無新聞支撐
+      let hypePenalty = 0;
+      if (q.changePct >= 4 && mood === 'hype') {
+        hypePenalty = -15;
+        reasons.push('⚠ 大漲 + 過熱 → 追高風險');
+      } else if (q.changePct >= 5 && newsScore < 55) {
+        hypePenalty = -8;
+        reasons.push('⚠ 大漲但新聞支撐不足');
+      }
+
+      // 加權平均
+      let score = priceScore * 0.38 + newsScore * 0.42 + 50 * 0.10 + moodAdj + volBoost + hypePenalty;
+      score = Math.round(Math.max(5, Math.min(95, score)));
+
+      let text;
+      if (score >= 75) text = '情緒偏多且有支撐';
+      else if (score >= 62) text = '情緒偏樂觀';
+      else if (score >= 48) text = '情緒中性偏觀望';
+      else if (score >= 35) text = '情緒偏保守 / 謹慎';
+      else text = '情緒偏空或過熱警戒';
+
+      return { score, text, reasons, priceScore, newsScore };
+    }
+
+    function judgeChart(q) {
+      const entry = q.price;
+      const stop = +(entry * 0.965).toFixed(2);
+      const risk = entry - stop;
+      const target = +(entry + risk * 1.8).toFixed(2);
+      return { entry: +entry.toFixed(2), stop, target, rr: 1.8 };
+    }
+
+    function judgeRisk(chart, realCap) {
+      const perShare = chart.entry - chart.stop;
+      const realMaxLoss = realCap * 0.015;
+      const realShares = Math.max(0, Math.floor(realMaxLoss / perShare));
+      const realNotional = +(realShares * chart.entry).toFixed(0);
+      const pass = realShares >= 1 || realNotional >= 5;
+      return { realShares, realNotional, maxLossReal: +realMaxLoss.toFixed(2), pass };
+    }
+
+    function judgeDecision(scout, news, sent, risk) {
+      const avg = (scout.score + news.score + sent.score) / 3;
+      let action, text;
+      if (!risk.pass) { action = 'reject'; text = '拒絕：風險部位不合理'; }
+      else if (avg >= 68 && scout.score >= 55 && sent.score >= 50) { action = 'approve'; text = '批准執行'; }
+      else if (avg >= 52) { action = 'reduce'; text = '縮小部位執行'; }
+      else { action = 'reject'; text = '拒絕：綜合分數偏低'; }
+      return { action, text, avg: +avg.toFixed(0) };
+    }
+
+    // ========== Main ==========
+    async function runFullAuto() {
+      const symbol = document.getElementById('symbol').value.trim().toUpperCase();
+      if (!symbol) {
+        document.getElementById('status').innerHTML = '<span class="error">請輸入代號或先掃描機會</span>';
+        return;
+      }
+      document.getElementById('status').innerHTML = '<span class="loading">抓取報價與新聞，執行判斷...</span>';
+      document.getElementById('bottomBar').classList.remove('show');
+
+      try {
+        const [q, newsList] = await Promise.all([fetchQuote(symbol), fetchNews(symbol)]);
+        const manualNews = document.getElementById('newsInput').value;
+        if (!manualNews && newsList.length) {
+          document.getElementById('newsInput').value = newsList.map(n => n.title).join('； ');
+        }
+        const mood = document.getElementById('moodInput').value;
+        const realCap = parseFloat(document.getElementById('realCap').value) || 100;
+
+        const scout = judgeScout(q);
+        const news = judgeNews(manualNews || document.getElementById('newsInput').value, newsList);
+        const sent = judgeSentiment(mood, q, news);
+        const chart = judgeChart(q);
+        const risk = judgeRisk(chart, realCap);
+        const decision = judgeDecision(scout, news, sent, risk);
+        lastAuto = { q, scout, news, sent, chart, risk, decision };
+
+        const cls = q.change >= 0 ? 'up' : 'down';
+        const sign = q.change >= 0 ? '+' : '';
+        document.getElementById('quoteBanner').className = 'quote-banner show';
+        document.getElementById('quoteBanner').innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+          '<div><div style="font-size:11px;color:#64748b;">' + q.symbol + '</div>' +
+          '<div class="price-big ' + cls + '">$' + q.price.toFixed(2) + '</div></div>' +
+          '<div style="text-align:right;font-size:13px;" class="' + cls + '">' + sign + q.change.toFixed(2) + '<br>' + sign + q.changePct.toFixed(2) + '%</div></div>';
+
+        document.getElementById('outScout').innerHTML =
+          '<span class="score-badge">' + scout.score + '</span>' + scout.text +
+          (scout.reasons.length ? '<ul class="reasons">' + scout.reasons.map(r => '<li>' + r + '</li>').join('') + '</ul>' : '');
+
+        let newsHtml = '<span class="score-badge">' + news.score + '</span>' + news.text;
+        if (news.items && news.items.length) {
+          newsHtml += news.items.map(n =>
+            '<div class="news-item">' + (n.link ? '<a href="' + n.link + '" target="_blank">' + n.title + '</a>' : n.title) + '</div>'
+          ).join('');
+        } else if (news.reasons.length) {
+          newsHtml += '<ul class="reasons">' + news.reasons.map(r => '<li>' + r + '</li>').join('') + '</ul>';
+        }
+        document.getElementById('outNews').innerHTML = newsHtml;
+
+        // Sentiment with bar
+        const barColor = sent.score >= 65 ? '#4ade80' : (sent.score >= 45 ? '#eab308' : '#f87171');
+        document.getElementById('outSentiment').innerHTML =
+          '<span class="score-badge">' + sent.score + '</span>' + sent.text +
+          '<div class="sent-bar"><div class="sent-bar-fill" style="width:' + sent.score + '%;background:' + barColor + ';"></div></div>' +
+          '<div style="font-size:10px;color:#94a3b8;">價格動能 ' + sent.priceScore + ' · 新聞 ' + sent.newsScore + '</div>' +
+          (sent.reasons.length ? '<ul class="reasons">' + sent.reasons.map(r => '<li>' + r + '</li>').join('') + '</ul>' : '');
+
+        document.getElementById('outCharts').innerHTML =
+          '<div class="metric"><span>進場</span><span>$' + chart.entry + '</span></div>' +
+          '<div class="metric"><span>停損</span><span>$' + chart.stop + ' (−3.5%)</span></div>' +
+          '<div class="metric"><span>目標</span><span>$' + chart.target + '</span></div>' +
+          '<div class="metric"><span>風險報酬</span><span style="color:#60a5fa;">1 : ' + chart.rr + '</span></div>';
+
+        document.getElementById('outRisk').innerHTML =
+          '<div class="metric"><span>建議股數</span><span style="color:#4ade80;font-weight:800;">' + risk.realShares + ' 股</span></div>' +
+          '<div class="metric"><span>投入約</span><span>$' + risk.realNotional + '</span></div>' +
+          '<div class="metric"><span>最大可虧</span><span>$' + risk.maxLossReal + '</span></div>' +
+          '<div class="metric"><span>風險檢查</span><span style="color:' + (risk.pass ? '#4ade80' : '#f87171') + ';">' + (risk.pass ? '通過' : '未通過') + '</span></div>';
+
+        document.getElementById('outDecision').innerHTML =
+          '<div style="margin-bottom:4px;"><span class="score-badge">' + decision.avg + '</span>綜合分數</div>' +
+          '<div class="final-action ' + decision.action + '">' + decision.text + '</div>';
+
+        document.getElementById('status').innerHTML = '<span class="success">判斷完成</span>';
+        document.getElementById('bottomBar').classList.add('show');
+      } catch (err) {
+        document.getElementById('status').innerHTML = '<span class="error">失敗：' + err.message + '</span>';
+      }
+    }
+
+    function clearAll() {
+      ['outScout','outNews','outSentiment','outCharts','outRisk','outDecision'].forEach(id => {
+        document.getElementById(id).innerHTML = '<div class="placeholder">等待指令...</div>';
+      });
+      document.getElementById('quoteBanner').className = 'quote-banner';
+      document.getElementById('status').innerHTML = '';
+      document.getElementById('bottomBar').classList.remove('show');
+      lastAuto = null;
+    }
+
+    function addToJournal() {
+      if (!lastAuto) return;
+      const { q, chart, risk, decision } = lastAuto;
+      if (decision.action === 'reject' && !confirm('系統建議拒絕，仍要記錄嗎？')) return;
+      const trades = loadTrades();
+      trades.unshift({
+        id: Date.now(), symbol: q.symbol, side: 'long',
+        entry: chart.entry, exit: null, size: risk.realShares + ' 股',
+        status: 'open', note: decision.text + ' · ' + decision.avg + ' 分',
+        time: new Date().toISOString()
+      });
+      saveTrades(trades);
+      alert('已加入模擬日誌');
+      showView('journal');
+    }
+
+    function loadTrades() {
+      try { return JSON.parse(localStorage.getItem('ai_desk_trades') || '[]'); } catch { return []; }
+    }
+    function saveTrades(t) { localStorage.setItem('ai_desk_trades', JSON.stringify(t)); }
+    function renderTrades() {
+      const trades = loadTrades();
+      const box = document.getElementById('tradeList');
+      if (!trades.length) { box.innerHTML = '<p style="color:#64748b;font-size:12px;">尚無紀錄</p>'; return; }
+      box.innerHTML = trades.map(t => {
+        let pnl = '持倉中', cls = '';
+        if (t.status === 'closed' && t.exit) {
+          const d = t.side === 'long' ? t.exit - t.entry : t.entry - t.exit;
+          pnl = (d >= 0 ? '+' : '') + d.toFixed(2);
+          cls = d >= 0 ? 'win' : 'loss';
+        }
+        return '<div class="trade-item ' + cls + '"><div class="trade-head"><span>' + t.symbol + '</span><span>' + pnl + '</span></div>' +
+          '<div class="trade-meta">進場 ' + t.entry + ' · ' + (t.size || '') + ' · ' + new Date(t.time).toLocaleString('zh-TW') + '</div>' +
+          (t.note ? '<div style="font-size:11px;margin-top:3px;color:#94a3b8;">' + t.note + '</div>' : '') + '</div>';
+      }).join('');
+    }
+    function clearTrades() {
+      if (confirm('確定清除？')) { localStorage.removeItem('ai_desk_trades'); renderTrades(); }
+    }
+
+    document.getElementById('symbol').addEventListener('keydown', e => { if (e.key === 'Enter') runFullAuto(); });
+  </script>
+</body>
+</html>
