@@ -1,0 +1,9 @@
+{
+  "name": "ustoct",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "auto": "node scripts/auto.mjs",
+    "test": "node --test scripts/engine.test.mjs"
+  }
+}

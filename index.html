@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AI Trading Desk · Control Room</title>
+  <title>AI 交易台 · 自動模擬</title>
   <style>
     :root {
       --bg: #070b14; --panel: #0d1525; --border: #1a2740;
@@ -194,6 +194,34 @@
     .sent-bar-fill {
       height: 100%; border-radius: 3px; transition: width 0.3s;
     }
+    .disclaimer {
+      margin: 0 0 10px; padding: 8px 10px; border-radius: 8px;
+      background: #422006; color: #fde68a; border: 1px solid #854d0e;
+      font-size: 12px; font-weight: 700;
+    }
+    .disclaimer span { display: block; font-weight: 500; color: #fcd34d; margin-top: 2px; }
+    .auto-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .muted-tiny { font-size: 10px; color: var(--muted); }
+    .kpi { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    @media (min-width: 720px) { .kpi { grid-template-columns: repeat(4, 1fr); } }
+    .kpi div { background: #0a101c; border: 1px solid var(--border); border-radius: 8px; padding: 8px; }
+    .kpi .l { font-size: 10px; color: var(--muted); }
+    .kpi .n { font-size: 16px; font-weight: 800; margin-top: 2px; }
+    .rank-row, .pos-card { padding: 8px 0; border-bottom: 1px solid #1a2740; }
+    .rank-row:last-child, .pos-card:last-child { border-bottom: none; }
+    .row-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+    .sym-btn { background: none; border: none; color: #fff; font-weight: 800; font-size: 14px; padding: 0; cursor: pointer; }
+    .badge {
+      display: inline-block; font-size: 10px; font-weight: 800;
+      padding: 1px 6px; border-radius: 999px; margin-left: 4px;
+    }
+    .badge.buy { background: #052e16; color: #86efac; }
+    .badge.reduce { background: #422006; color: #fde68a; }
+    .badge.skip { background: #1e293b; color: #94a3b8; }
+    .sub { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+    .eq-wrap { margin-top: 6px; }
+    .run-line { font-size: 12px; margin-top: 4px; }
+    .chip-tag { font-size: 10px; color: #93c5fd; }
   </style>
 </head>
 <body>
@@ -201,21 +229,33 @@
     <div class="brand">
       <div class="brand-icon">AI</div>
       <div>
-        <h1>Trading Control Room</h1>
-        <p>自動掃描 · 新聞 · 情緒強化</p>
+        <h1>AI 交易台</h1>
+        <p>全自動模擬 · 美股</p>
       </div>
     </div>
-    <div class="status-pill">模擬模式</div>
+    <div class="status-pill">模擬交易</div>
   </div>
 
   <div class="tabs-mini">
-    <button class="active" id="tabRoom" onclick="showView('room')">控制室</button>
+    <button class="active" id="tabAuto" onclick="showView('auto')">自動</button>
+    <button id="tabRoom" onclick="showView('room')">控制室</button>
     <button id="tabJournal" onclick="showView('journal')">交易日誌</button>
     <button id="tabSettings" onclick="showView('settings')">設定</button>
   </div>
 
+  <div id="autoError" class="error" style="padding:0 14px;"></div>
+
+  <!-- AUTO -->
+  <div class="panel-view show" id="viewAuto">
+    <div class="auto-toolbar">
+      <button class="btn ghost" style="width:auto;padding:6px 10px;font-size:12px;" onclick="refreshAuto()">重新整理</button>
+      <span id="autoStamp" class="muted-tiny"></span>
+    </div>
+    <div id="autoRoot"><div class="loading">讀取模擬帳本…</div></div>
+  </div>
+
   <!-- ROOM -->
-  <div id="viewRoom">
+  <div id="viewRoom" style="display:none;">
     <div class="control-bar">
       <div class="control-row">
         <input type="text" id="symbol" placeholder="輸入代號 或 先掃描機會" />
@@ -228,14 +268,15 @@
           <textarea id="newsInput" placeholder="系統會嘗試自動抓新聞..."></textarea>
         </div>
         <div>
-          <label>你感覺的社群情緒（輔助參考）</label>
+          <label>你感覺的社群情緒（只影響手動控制室）</label>
           <select id="moodInput">
             <option value="bullish">偏多（理性）</option>
             <option value="hype">過熱 / 大家在喊單</option>
             <option value="neutral" selected>中性 / 沒感覺</option>
             <option value="bearish">偏空</option>
           </select>
-          <label style="margin-top:6px;">真實資金 ($)</label>
+          <div class="muted-tiny" style="margin-top:3px;">自動帳本固定把這裡當成中性。</div>
+          <label style="margin-top:6px;">手動試算資金 ($)</label>
           <input type="number" id="realCap" value="100" class="settings-input" />
         </div>
       </div>
@@ -333,25 +374,45 @@
         5. 過熱偵測（大漲 + 過熱情緒會扣分）
       </div>
     </div>
+    <div class="card">
+      <div class="card-title">自動模擬帳本</div>
+      <div class="card-desc" id="strategyNote">
+        自動頁的持倉由排程寫入，跟這台手機上的手動日誌是分開的。社群情緒在自動路徑固定為中性。
+      </div>
+    </div>
   </div>
 
   <div class="footer-note">
-    工具只負責執行與建議，最終交易決策仍要由你決定。<br>
-    本介面僅供模擬與教育用途，不構成投資建議。
+    模擬交易，非投資建議。<br>
+    不會連接券商，也不會送出真實訂單。
   </div>
 
-  <script>
+  <script type="module">
+    import { analyzeCandidate, buildQuote, previousCloseFromBars, STRATEGY_NOTE } from './lib/scoring.js?v=1';
+    import { formatTaipei, nextScheduledRuns } from './lib/market.js?v=1';
+
     let lastAuto = null;
+    let lastAutoLoad = 0;
+    let autoRendered = false;
+    const REFRESH_MS = 5 * 60 * 1000;
+
+    const strategyNote = document.getElementById('strategyNote');
+    if (strategyNote) {
+      strategyNote.innerHTML = '自動頁的持倉由排程寫入，跟這台手機上的手動日誌是分開的。<br>' + esc(STRATEGY_NOTE);
+    }
 
     function showView(name) {
+      document.getElementById('viewAuto').classList.toggle('show', name === 'auto');
       document.getElementById('viewRoom').style.display = name === 'room' ? 'block' : 'none';
       document.getElementById('viewJournal').classList.toggle('show', name === 'journal');
       document.getElementById('viewSettings').classList.toggle('show', name === 'settings');
+      document.getElementById('tabAuto').classList.toggle('active', name === 'auto');
       document.getElementById('tabRoom').classList.toggle('active', name === 'room');
       document.getElementById('tabJournal').classList.toggle('active', name === 'journal');
       document.getElementById('tabSettings').classList.toggle('active', name === 'settings');
       if (name === 'journal') renderTrades();
       if (name === 'settings') loadSettings();
+      if (name === 'auto' && Date.now() - lastAutoLoad > 60000) refreshAuto();
     }
 
     function saveFinnhubKey() {
@@ -368,7 +429,35 @@
       return localStorage.getItem('ai_desk_finnhub') || '';
     }
 
-    // ========== Scanner ==========
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[ch]));
+    }
+    function safeSymbol(symbol) {
+      const sym = String(symbol || '').toUpperCase();
+      return /^[A-Z][A-Z0-9.-]{0,9}$/.test(sym) ? sym : '';
+    }
+    function money(value) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return '—';
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function signedMoney(value) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return '—';
+      const sign = n > 0 ? '+' : (n < 0 ? '-' : '');
+      return sign + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function signedPct(value) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return '—';
+      return (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+    }
+    function clsOf(value) {
+      return Number(value) >= 0 ? 'up' : 'down';
+    }
+
     async function scanOpportunities() {
       document.getElementById('status').innerHTML = '<span class="loading">正在掃描今日機會股票...</span>';
       document.getElementById('scanBox').classList.remove('show');
@@ -381,21 +470,23 @@
         const gainers = (gData.finance?.result?.[0]?.quotes || []).slice(0, 8);
         const actives = (aData.finance?.result?.[0]?.quotes || []).slice(0, 6);
         const map = {};
-        [...gainers, ...actives].forEach(q => { if (q.symbol && !map[q.symbol]) map[q.symbol] = q; });
+        [...gainers, ...actives].forEach((q) => { if (q.symbol && !map[q.symbol]) map[q.symbol] = q; });
         const list = Object.values(map).slice(0, 12);
         if (!list.length) throw new Error('暫時抓不到清單');
-        document.getElementById('scanList').innerHTML = list.map(q => {
+        document.getElementById('scanList').innerHTML = list.map((q) => {
+          const sym = safeSymbol(q.symbol);
+          if (!sym) return '';
           const pct = q.regularMarketChangePercent || 0;
           const cls = pct >= 0 ? 'up' : 'down';
           const sign = pct >= 0 ? '+' : '';
-          return '<div class="scan-chip" onclick="selectSymbol(\'' + q.symbol + '\')">' +
-            '<span class="sym">' + q.symbol + '</span>' +
+          return '<div class="scan-chip" onclick="selectSymbol(\'' + sym + '\')">' +
+            '<span class="sym">' + sym + '</span>' +
             '<span class="chg ' + cls + '">' + sign + pct.toFixed(1) + '%</span></div>';
         }).join('');
         document.getElementById('scanBox').classList.add('show');
         document.getElementById('status').innerHTML = '<span class="success">掃描完成，點選股票即可分析</span>';
       } catch (err) {
-        document.getElementById('status').innerHTML = '<span class="error">掃描失敗：' + err.message + '</span>';
+        document.getElementById('status').innerHTML = '<span class="error">掃描失敗：' + esc(err.message) + '</span>';
       }
     }
     function selectSymbol(sym) {
@@ -403,33 +494,48 @@
       runFullAuto();
     }
 
-    // ========== Data ==========
+    function barsFromChart(data) {
+      const result = data?.chart?.result?.[0];
+      if (!result?.meta?.regularMarketPrice) throw new Error('找不到代號');
+      const timestamps = result.timestamp || [];
+      const quote = result.indicators?.quote?.[0] || {};
+      const bars = [];
+      for (let i = 0; i < timestamps.length; i += 1) {
+        const close = quote.close?.[i];
+        if (Number.isFinite(close)) bars.push({ close });
+      }
+      return { meta: result.meta, bars };
+    }
+
+    async function fetchYahooChart(symbol, range) {
+      const url = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v8/finance/chart/'
+        + encodeURIComponent(symbol) + '?range=' + range + '&interval=1d&includePrePost=false';
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('來源錯誤');
+      return barsFromChart(await res.json());
+    }
+
     async function fetchQuote(symbol) {
       symbol = symbol.toUpperCase();
       try {
-        const url = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v8/finance/chart/' + symbol + '?range=1d&interval=1d';
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('來源錯誤');
-        const data = await res.json();
-        const meta = data.chart?.result?.[0]?.meta;
-        if (!meta?.regularMarketPrice) throw new Error('找不到代號');
-        const price = meta.regularMarketPrice;
-        const prev = meta.chartPreviousClose || meta.previousClose || price;
-        return {
-          symbol, price,
-          change: price - prev,
-          changePct: ((price - prev) / prev) * 100,
-          volume: meta.regularMarketVolume || 0,
-          prev
-        };
-      } catch (e) {
+        let parsed;
+        try { parsed = await fetchYahooChart(symbol, '10d'); }
+        catch { parsed = await fetchYahooChart(symbol, '1d'); }
+        const prev = previousCloseFromBars(parsed.bars, parsed.meta) || parsed.meta.regularMarketPrice;
+        return buildQuote({
+          symbol,
+          price: parsed.meta.regularMarketPrice,
+          previousClose: prev,
+          volume: parsed.meta.regularMarketVolume || 0
+        });
+      } catch (err) {
         const key = getFinnhubKey();
         if (key) {
-          const r = await fetch('https://finnhub.io/api/v1/quote?symbol=' + symbol + '&token=' + key);
+          const r = await fetch('https://finnhub.io/api/v1/quote?symbol=' + encodeURIComponent(symbol) + '&token=' + encodeURIComponent(key));
           const d = await r.json();
-          if (d.c > 0) return { symbol, price: d.c, change: d.d || 0, changePct: d.dp || 0, volume: 0, prev: d.pc };
+          if (d.c > 0) return buildQuote({ symbol, price: d.c, previousClose: d.pc || d.c, volume: 0 });
         }
-        throw e;
+        throw err;
       }
     }
 
@@ -439,160 +545,32 @@
         const res = await fetch(url);
         const data = await res.json();
         const news = data.news || [];
-        if (news.length) {
-          return news.slice(0, 5).map(n => ({ title: n.title || '', link: n.link || '' }));
-        }
-      } catch (e) {}
+        if (news.length) return news.slice(0, 5).map((n) => ({ title: n.title || '', link: n.link || '' }));
+      } catch { /* fall through */ }
       const key = getFinnhubKey();
       if (key) {
         try {
           const to = new Date().toISOString().slice(0, 10);
           const from = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-          const url = 'https://finnhub.io/api/v1/company-news?symbol=' + symbol + '&from=' + from + '&to=' + to + '&token=' + key;
+          const url = 'https://finnhub.io/api/v1/company-news?symbol=' + encodeURIComponent(symbol) + '&from=' + from + '&to=' + to + '&token=' + encodeURIComponent(key);
           const res = await fetch(url);
           const data = await res.json();
           if (Array.isArray(data) && data.length) {
-            return data.slice(0, 5).map(n => ({ title: n.headline || n.summary || '', link: n.url || '' }));
+            return data.slice(0, 5).map((n) => ({ title: n.headline || n.summary || '', link: n.url || '' }));
           }
-        } catch (e) {}
+        } catch { /* ignore */ }
       }
       return [];
     }
 
-    // ========== Improved Sentiment ==========
-    function analyzeNewsPolarity(text) {
-      const t = (text || '').toLowerCase();
-      let bull = 0, bear = 0;
-      const bullWords = ['beat','優於','超預期','升評','upgrade','突破','新高','利多','成長','強勁','record','surge','soars','rally','bullish','positive','strong','growth','outperform','raise','buy'];
-      const bearWords = ['miss','低於','降評','downgrade','調查','訴訟','裁員','虧損','利空','疲弱','delay','falls','drop','plunge','bearish','negative','weak','cut','sell','lawsuit','probe'];
-      bullWords.forEach(w => { if (t.includes(w)) bull++; });
-      bearWords.forEach(w => { if (t.includes(w)) bear++; });
-      return { bull, bear, net: bull - bear };
+    function safeHref(url) {
+      try {
+        const parsed = new URL(url);
+        if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+      } catch { /* ignore */ }
+      return '';
     }
 
-    function judgeScout(q) {
-      let score = 50, reasons = [];
-      if (Math.abs(q.changePct) >= 5) { score += 20; reasons.push('單日波動 ≥5%'); }
-      else if (Math.abs(q.changePct) >= 3) { score += 12; reasons.push('單日波動 ≥3%'); }
-      else if (Math.abs(q.changePct) >= 1.5) { score += 5; reasons.push('有一定波動'); }
-      else { score -= 10; reasons.push('波動較小'); }
-      if (q.changePct > 0) { score += 8; reasons.push('今日上漲'); } else { score -= 5; reasons.push('今日下跌'); }
-      if (q.volume > 5e6) { score += 10; reasons.push('成交量較大'); }
-      else if (q.volume > 1e6) { score += 5; reasons.push('成交量尚可'); }
-      score = Math.max(0, Math.min(100, score));
-      const text = score >= 70 ? '機會分數較高' : (score >= 45 ? '中等機會' : '機會較弱');
-      return { score, text, reasons };
-    }
-
-    function judgeNews(text, newsList) {
-      const combined = (text || '') + ' ' + (newsList || []).map(n => n.title).join(' ');
-      if (!combined.trim()) return { score: 50, text: '無新聞，中性', reasons: [], items: [] };
-      const pol = analyzeNewsPolarity(combined);
-      let score = 50 + pol.net * 12;
-      score = Math.max(0, Math.min(100, score));
-      const reasons = [];
-      if (pol.bull) reasons.push('利多關鍵字 ×' + pol.bull);
-      if (pol.bear) reasons.push('利空關鍵字 ×' + pol.bear);
-      const txt = score >= 65 ? '新聞偏利多' : (score >= 40 ? '新聞中性' : '新聞偏利空');
-      return { score, text: txt, reasons, items: newsList || [], polarity: pol };
-    }
-
-    /**
-     * 強化版市場情緒
-     * 綜合：新聞極性 40% + 價格動能 35% + 成交量 15% + 使用者感覺 10%
-     * 並加入「過熱扣分」
-     */
-    function judgeSentiment(mood, q, newsResult) {
-      let reasons = [];
-      let priceScore = 50;
-      const absPct = Math.abs(q.changePct);
-
-      // 1. 價格動能 (0~100)
-      if (q.changePct >= 5) { priceScore = 88; reasons.push('強勢上漲 ≥5%'); }
-      else if (q.changePct >= 3) { priceScore = 78; reasons.push('明顯上漲 ≥3%'); }
-      else if (q.changePct >= 1.5) { priceScore = 68; reasons.push('溫和上漲'); }
-      else if (q.changePct >= 0.3) { priceScore = 58; reasons.push('小幅上漲'); }
-      else if (q.changePct > -0.3) { priceScore = 50; reasons.push('幾乎平盤'); }
-      else if (q.changePct > -1.5) { priceScore = 42; reasons.push('小幅下跌'); }
-      else if (q.changePct > -3) { priceScore = 32; reasons.push('明顯下跌'); }
-      else if (q.changePct > -5) { priceScore = 22; reasons.push('大幅下跌'); }
-      else { priceScore = 12; reasons.push('重挫 ≤-5%'); }
-
-      // 2. 新聞極性
-      let newsScore = 50;
-      if (newsResult && newsResult.polarity) {
-        const net = newsResult.polarity.net;
-        newsScore = Math.max(0, Math.min(100, 50 + net * 14));
-        if (net > 0) reasons.push('新聞淨利多 +' + net);
-        else if (net < 0) reasons.push('新聞淨利空 ' + net);
-        else reasons.push('新聞極性中性');
-      } else {
-        reasons.push('無足夠新聞參考');
-      }
-
-      // 3. 成交量加權
-      let volBoost = 0;
-      if (q.volume > 8e6) { volBoost = 8; reasons.push('成交量明顯放大'); }
-      else if (q.volume > 3e6) { volBoost = 4; reasons.push('成交量偏高'); }
-
-      // 4. 使用者感覺（權重低）
-      let moodAdj = 0;
-      if (mood === 'bullish') { moodAdj = 6; reasons.push('你選擇理性偏多'); }
-      else if (mood === 'hype') { moodAdj = -12; reasons.push('你感覺過熱'); }
-      else if (mood === 'bearish') { moodAdj = -8; reasons.push('你選擇偏空'); }
-
-      // 5. 過熱偵測：大漲 + 過熱情緒 或 大漲但無新聞支撐
-      let hypePenalty = 0;
-      if (q.changePct >= 4 && mood === 'hype') {
-        hypePenalty = -15;
-        reasons.push('⚠ 大漲 + 過熱 → 追高風險');
-      } else if (q.changePct >= 5 && newsScore < 55) {
-        hypePenalty = -8;
-        reasons.push('⚠ 大漲但新聞支撐不足');
-      }
-
-      // 加權平均
-      let score = priceScore * 0.38 + newsScore * 0.42 + 50 * 0.10 + moodAdj + volBoost + hypePenalty;
-      score = Math.round(Math.max(5, Math.min(95, score)));
-
-      let text;
-      if (score >= 75) text = '情緒偏多且有支撐';
-      else if (score >= 62) text = '情緒偏樂觀';
-      else if (score >= 48) text = '情緒中性偏觀望';
-      else if (score >= 35) text = '情緒偏保守 / 謹慎';
-      else text = '情緒偏空或過熱警戒';
-
-      return { score, text, reasons, priceScore, newsScore };
-    }
-
-    function judgeChart(q) {
-      const entry = q.price;
-      const stop = +(entry * 0.965).toFixed(2);
-      const risk = entry - stop;
-      const target = +(entry + risk * 1.8).toFixed(2);
-      return { entry: +entry.toFixed(2), stop, target, rr: 1.8 };
-    }
-
-    function judgeRisk(chart, realCap) {
-      const perShare = chart.entry - chart.stop;
-      const realMaxLoss = realCap * 0.015;
-      const realShares = Math.max(0, Math.floor(realMaxLoss / perShare));
-      const realNotional = +(realShares * chart.entry).toFixed(0);
-      const pass = realShares >= 1 || realNotional >= 5;
-      return { realShares, realNotional, maxLossReal: +realMaxLoss.toFixed(2), pass };
-    }
-
-    function judgeDecision(scout, news, sent, risk) {
-      const avg = (scout.score + news.score + sent.score) / 3;
-      let action, text;
-      if (!risk.pass) { action = 'reject'; text = '拒絕：風險部位不合理'; }
-      else if (avg >= 68 && scout.score >= 55 && sent.score >= 50) { action = 'approve'; text = '批准執行'; }
-      else if (avg >= 52) { action = 'reduce'; text = '縮小部位執行'; }
-      else { action = 'reject'; text = '拒絕：綜合分數偏低'; }
-      return { action, text, avg: +avg.toFixed(0) };
-    }
-
-    // ========== Main ==========
     async function runFullAuto() {
       const symbol = document.getElementById('symbol').value.trim().toUpperCase();
       if (!symbol) {
@@ -604,19 +582,21 @@
 
       try {
         const [q, newsList] = await Promise.all([fetchQuote(symbol), fetchNews(symbol)]);
-        const manualNews = document.getElementById('newsInput').value;
-        if (!manualNews && newsList.length) {
-          document.getElementById('newsInput').value = newsList.map(n => n.title).join('； ');
-        }
+        const box = document.getElementById('newsInput');
+        const typed = box.value.trim();
+        const autoJoined = newsList.map((n) => n.title).join('； ');
+        const extraNews = autoJoined && typed === autoJoined ? '' : typed;
         const mood = document.getElementById('moodInput').value;
         const realCap = parseFloat(document.getElementById('realCap').value) || 100;
+        const analyzed = analyzeCandidate({ quote: q, newsList, mood, extraNews, capital: realCap });
+        if (!typed && newsList.length) box.value = autoJoined;
 
-        const scout = judgeScout(q);
-        const news = judgeNews(manualNews || document.getElementById('newsInput').value, newsList);
-        const sent = judgeSentiment(mood, q, news);
-        const chart = judgeChart(q);
-        const risk = judgeRisk(chart, realCap);
-        const decision = judgeDecision(scout, news, sent, risk);
+        const scout = analyzed.scout;
+        const news = analyzed.news;
+        const sent = analyzed.sentiment;
+        const chart = analyzed.chart;
+        const risk = analyzed.risk;
+        const decision = analyzed.decision;
         lastAuto = { q, scout, news, sent, chart, risk, decision };
 
         const cls = q.change >= 0 ? 'up' : 'down';
@@ -624,57 +604,58 @@
         document.getElementById('quoteBanner').className = 'quote-banner show';
         document.getElementById('quoteBanner').innerHTML =
           '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-          '<div><div style="font-size:11px;color:#64748b;">' + q.symbol + '</div>' +
-          '<div class="price-big ' + cls + '">$' + q.price.toFixed(2) + '</div></div>' +
+          '<div><div style="font-size:11px;color:#64748b;">' + esc(q.symbol) + '</div>' +
+          '<div class="price-big ' + cls + '">' + money(q.price) + '</div></div>' +
           '<div style="text-align:right;font-size:13px;" class="' + cls + '">' + sign + q.change.toFixed(2) + '<br>' + sign + q.changePct.toFixed(2) + '%</div></div>';
 
         document.getElementById('outScout').innerHTML =
-          '<span class="score-badge">' + scout.score + '</span>' + scout.text +
-          (scout.reasons.length ? '<ul class="reasons">' + scout.reasons.map(r => '<li>' + r + '</li>').join('') + '</ul>' : '');
+          '<span class="score-badge">' + scout.score + '</span>' + esc(scout.text) +
+          (scout.reasons.length ? '<ul class="reasons">' + scout.reasons.map((r) => '<li>' + esc(r) + '</li>').join('') + '</ul>' : '');
 
-        let newsHtml = '<span class="score-badge">' + news.score + '</span>' + news.text;
+        let newsHtml = '<span class="score-badge">' + news.score + '</span>' + esc(news.text);
         if (news.items && news.items.length) {
-          newsHtml += news.items.map(n =>
-            '<div class="news-item">' + (n.link ? '<a href="' + n.link + '" target="_blank">' + n.title + '</a>' : n.title) + '</div>'
-          ).join('');
+          newsHtml += news.items.map((n) => {
+            const href = safeHref(n.link);
+            const title = esc(n.title);
+            return '<div class="news-item">' + (href ? '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + title + '</a>' : title) + '</div>';
+          }).join('');
         } else if (news.reasons.length) {
-          newsHtml += '<ul class="reasons">' + news.reasons.map(r => '<li>' + r + '</li>').join('') + '</ul>';
+          newsHtml += '<ul class="reasons">' + news.reasons.map((r) => '<li>' + esc(r) + '</li>').join('') + '</ul>';
         }
         document.getElementById('outNews').innerHTML = newsHtml;
 
-        // Sentiment with bar
         const barColor = sent.score >= 65 ? '#4ade80' : (sent.score >= 45 ? '#eab308' : '#f87171');
         document.getElementById('outSentiment').innerHTML =
-          '<span class="score-badge">' + sent.score + '</span>' + sent.text +
+          '<span class="score-badge">' + sent.score + '</span>' + esc(sent.text) +
           '<div class="sent-bar"><div class="sent-bar-fill" style="width:' + sent.score + '%;background:' + barColor + ';"></div></div>' +
           '<div style="font-size:10px;color:#94a3b8;">價格動能 ' + sent.priceScore + ' · 新聞 ' + sent.newsScore + '</div>' +
-          (sent.reasons.length ? '<ul class="reasons">' + sent.reasons.map(r => '<li>' + r + '</li>').join('') + '</ul>' : '');
+          (sent.reasons.length ? '<ul class="reasons">' + sent.reasons.map((r) => '<li>' + esc(r) + '</li>').join('') + '</ul>' : '');
 
         document.getElementById('outCharts').innerHTML =
-          '<div class="metric"><span>進場</span><span>$' + chart.entry + '</span></div>' +
-          '<div class="metric"><span>停損</span><span>$' + chart.stop + ' (−3.5%)</span></div>' +
-          '<div class="metric"><span>目標</span><span>$' + chart.target + '</span></div>' +
+          '<div class="metric"><span>進場</span><span>' + money(chart.entry) + '</span></div>' +
+          '<div class="metric"><span>停損</span><span>' + money(chart.stop) + ' (−3.5%)</span></div>' +
+          '<div class="metric"><span>目標</span><span>' + money(chart.target) + '</span></div>' +
           '<div class="metric"><span>風險報酬</span><span style="color:#60a5fa;">1 : ' + chart.rr + '</span></div>';
 
         document.getElementById('outRisk').innerHTML =
           '<div class="metric"><span>建議股數</span><span style="color:#4ade80;font-weight:800;">' + risk.realShares + ' 股</span></div>' +
           '<div class="metric"><span>投入約</span><span>$' + risk.realNotional + '</span></div>' +
-          '<div class="metric"><span>最大可虧</span><span>$' + risk.maxLossReal + '</span></div>' +
+          '<div class="metric"><span>最大可虧</span><span>' + money(risk.maxLossReal) + '</span></div>' +
           '<div class="metric"><span>風險檢查</span><span style="color:' + (risk.pass ? '#4ade80' : '#f87171') + ';">' + (risk.pass ? '通過' : '未通過') + '</span></div>';
 
         document.getElementById('outDecision').innerHTML =
           '<div style="margin-bottom:4px;"><span class="score-badge">' + decision.avg + '</span>綜合分數</div>' +
-          '<div class="final-action ' + decision.action + '">' + decision.text + '</div>';
+          '<div class="final-action ' + decision.action + '">' + esc(decision.text) + '</div>';
 
         document.getElementById('status').innerHTML = '<span class="success">判斷完成</span>';
         document.getElementById('bottomBar').classList.add('show');
       } catch (err) {
-        document.getElementById('status').innerHTML = '<span class="error">失敗：' + err.message + '</span>';
+        document.getElementById('status').innerHTML = '<span class="error">失敗：' + esc(err.message) + '</span>';
       }
     }
 
     function clearAll() {
-      ['outScout','outNews','outSentiment','outCharts','outRisk','outDecision'].forEach(id => {
+      ['outScout', 'outNews', 'outSentiment', 'outCharts', 'outRisk', 'outDecision'].forEach((id) => {
         document.getElementById(id).innerHTML = '<div class="placeholder">等待指令...</div>';
       });
       document.getElementById('quoteBanner').className = 'quote-banner';
@@ -707,24 +688,229 @@
       const trades = loadTrades();
       const box = document.getElementById('tradeList');
       if (!trades.length) { box.innerHTML = '<p style="color:#64748b;font-size:12px;">尚無紀錄</p>'; return; }
-      box.innerHTML = trades.map(t => {
-        let pnl = '持倉中', cls = '';
+      box.innerHTML = trades.map((t) => {
+        let pnl = '持倉中';
+        let rowCls = '';
         if (t.status === 'closed' && t.exit) {
           const d = t.side === 'long' ? t.exit - t.entry : t.entry - t.exit;
           pnl = (d >= 0 ? '+' : '') + d.toFixed(2);
-          cls = d >= 0 ? 'win' : 'loss';
+          rowCls = d >= 0 ? 'win' : 'loss';
         }
-        return '<div class="trade-item ' + cls + '"><div class="trade-head"><span>' + t.symbol + '</span><span>' + pnl + '</span></div>' +
-          '<div class="trade-meta">進場 ' + t.entry + ' · ' + (t.size || '') + ' · ' + new Date(t.time).toLocaleString('zh-TW') + '</div>' +
-          (t.note ? '<div style="font-size:11px;margin-top:3px;color:#94a3b8;">' + t.note + '</div>' : '') + '</div>';
+        return '<div class="trade-item ' + rowCls + '"><div class="trade-head"><span>' + esc(t.symbol) + '</span><span>' + esc(pnl) + '</span></div>' +
+          '<div class="trade-meta">進場 ' + esc(t.entry) + ' · ' + esc(t.size || '') + ' · ' + esc(new Date(t.time).toLocaleString('zh-TW')) + '</div>' +
+          (t.note ? '<div style="font-size:11px;margin-top:3px;color:#94a3b8;">' + esc(t.note) + '</div>' : '') + '</div>';
       }).join('');
     }
     function clearTrades() {
       if (confirm('確定清除？')) { localStorage.removeItem('ai_desk_trades'); renderTrades(); }
     }
 
-    document.getElementById('symbol').addEventListener('keydown', e => { if (e.key === 'Enter') runFullAuto(); });
+    function sourceLabel(sources) {
+      const map = { gainer: '漲幅榜', active: '成交榜', watch: '大型股' };
+      return (sources || []).map((s) => map[s] || s).join(' · ');
+    }
+    function decisionLabel(decision) {
+      if (decision === 'buy') return '買進';
+      if (decision === 'reduce') return '縮小';
+      return '略過';
+    }
+    function equitySvg(points, capital) {
+      const vals = (points || []).map((p) => Number(p.equity)).filter(Number.isFinite);
+      if (!vals.length) return '<div class="placeholder">曲線會在每次排程後出現</div>';
+      const w = 320;
+      const h = 112;
+      const pad = 8;
+      const base = Number.isFinite(capital) ? capital : vals[0];
+      let min = Math.min(...vals, base);
+      let max = Math.max(...vals, base);
+      if (min === max) {
+        const padAmt = Math.max(Math.abs(min) * 0.01, 1);
+        min -= padAmt;
+        max += padAmt;
+      }
+      const span = max - min;
+      const xy = vals.map((v, i) => {
+        const x = pad + (vals.length === 1 ? (w - pad * 2) / 2 : (i / (vals.length - 1)) * (w - pad * 2));
+        const y = pad + (1 - (v - min) / span) * (h - pad * 2);
+        return [x, y];
+      });
+      const line = xy.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+      const up = vals[vals.length - 1] >= base;
+      const color = up ? '#4ade80' : '#f87171';
+      const last = xy[xy.length - 1];
+      const area = pad + ',' + (h - pad) + ' ' + line + ' ' + (w - pad) + ',' + (h - pad);
+      return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="112" role="img" aria-label="權益曲線">' +
+        '<polygon points="' + area + '" fill="' + color + '" opacity="0.16"></polygon>' +
+        '<polyline points="' + line + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></polyline>' +
+        '<circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="3.5" fill="' + color + '"></circle>' +
+        '</svg>';
+    }
+
+    function positionMark(position, liveMap) {
+      const hit = liveMap[position.symbol];
+      if (hit && Number.isFinite(hit.price)) return { price: hit.price, live: true };
+      const book = Number(position.lastPrice ?? position.entry);
+      return { price: book, live: false };
+    }
+
+    function renderAuto(state, liveMap) {
+      const opens = state.openPositions || [];
+      const closed = [...(state.closedTrades || [])].reverse();
+      const capital = Number(state.initialCapital || state.config?.paperCapital || 0);
+      let market = 0;
+      let liveHits = 0;
+      opens.forEach((position) => {
+        const mark = positionMark(position, liveMap);
+        if (mark.live) liveHits += 1;
+        market += mark.price * position.shares;
+      });
+      const equity = Number(state.cash || 0) + market;
+      const totalReturn = capital ? (equity - capital) / capital * 100 : 0;
+      const wins = (state.closedTrades || []).filter((t) => t.pnl > 0).length;
+      const closedCount = (state.closedTrades || []).length;
+      const winText = closedCount ? (wins + '/' + closedCount + '（' + Math.round(wins / closedCount * 100) + '%）') : '尚無平倉';
+      const run = state.lastRun || {};
+      const statusText = run.status === 'ok' ? '完成' : (run.status === 'skipped' ? '略過' : (run.status === 'error' ? '失敗' : '尚無'));
+      const runs = nextScheduledRuns(new Date(), 3);
+      const next = runs[0];
+      const priceNote = opens.length
+        ? (liveHits === opens.length ? '持倉現價為即時報價' : (liveHits ? '部分持倉用帳本價格' : '即時報價失敗，使用帳本價格'))
+        : '每 5 分鐘自動更新';
+
+      const rankRows = (state.lastRanking || []).map((row) => {
+        const sym = safeSymbol(row.symbol);
+        const call = row.decision === 'buy' || row.decision === 'reduce' || row.decision === 'skip' ? row.decision : 'skip';
+        const reasons = (row.reasons || []).slice(0, 3).join(' · ');
+        return '<div class="rank-row">' +
+          '<div class="row-top"><div><button class="sym-btn" onclick="inspectSymbol(\'' + (sym || '') + '\')">' + esc(row.symbol) + '</button>' +
+          '<span class="badge ' + call + '">' + decisionLabel(call) + '</span></div>' +
+          '<div class="' + clsOf(row.changePct) + '" style="font-weight:700;">' + signedPct(row.changePct) + '</div></div>' +
+          '<div class="sub">綜合 ' + esc(row.scores?.composite) + ' · 掃描 ' + esc(row.scores?.scout) + ' · 新聞 ' + esc(row.scores?.news) + ' · 情緒 ' + esc(row.scores?.sentiment) + '</div>' +
+          '<div class="sub">' + esc(row.outcomeText || '') + (reasons ? ' · ' + esc(reasons) : '') + '</div>' +
+          '<div class="chip-tag">' + esc(sourceLabel(row.sources)) + (row.name ? ' · ' + esc(row.name) : '') + '</div>' +
+          '</div>';
+      }).join('');
+
+      const posRows = opens.map((position) => {
+        const mark = positionMark(position, liveMap);
+        const pnl = (mark.price - position.entry) * position.shares;
+        const pnlPct = position.entry ? (mark.price - position.entry) / position.entry * 100 : 0;
+        return '<div class="pos-card">' +
+          '<div class="row-top"><div><button class="sym-btn" onclick="inspectSymbol(\'' + (safeSymbol(position.symbol) || '') + '\')">' + esc(position.symbol) + '</button>' +
+          '<span class="muted-tiny"> ' + esc(position.shares) + ' 股</span></div>' +
+          '<div class="' + clsOf(pnl) + '" style="font-weight:800;">' + signedMoney(pnl) + '</div></div>' +
+          '<div class="sub">進場 ' + money(position.entry) + ' · 現價 ' + money(mark.price) + ' ' + (mark.live ? '即時' : '帳本') + ' · ' + signedPct(pnlPct) + '</div>' +
+          '<div class="sub">停損 ' + money(position.stop) + ' · 目標 ' + money(position.target) + ' · 已持有 ' + esc(position.daysHeld ?? 0) + ' 個交易日</div>' +
+          '</div>';
+      }).join('');
+
+      const closedRows = closed.slice(0, 30).map((trade) => {
+        return '<div class="pos-card">' +
+          '<div class="row-top"><div><strong>' + esc(trade.symbol) + '</strong> <span class="muted-tiny">' + esc(trade.exitReasonText || '') + '</span></div>' +
+          '<div class="' + clsOf(trade.pnl) + '" style="font-weight:800;">' + signedMoney(trade.pnl) + '</div></div>' +
+          '<div class="sub">進 ' + money(trade.entry) + ' → 出 ' + money(trade.exit) + ' · ' + esc(trade.shares) + ' 股 · ' + signedPct(trade.pnlPct) + '</div>' +
+          '<div class="sub">' + esc(trade.entrySession || '') + ' → ' + esc(trade.exitSession || '') + '</div>' +
+          '</div>';
+      }).join('');
+
+      document.getElementById('autoRoot').innerHTML =
+        '<div class="disclaimer">模擬交易，非投資建議<span>不會連接券商，也不會送出真實訂單。最多 ' + esc(state.config?.maxPositions || 5) + ' 檔多單，停損、目標或滿 ' + esc(state.config?.maxHoldTradingDays || 10) + ' 個交易日自動平倉。</span></div>' +
+        '<div class="card">' +
+          '<div class="card-title">帳本狀態</div>' +
+          '<div class="run-line">上次執行（台北） ' + esc(run.at ? formatTaipei(run.at) : '尚無') + ' · ' + statusText + '</div>' +
+          '<div class="sub">' + esc(run.reason || '等待第一次排程。') + '</div>' +
+          '<div class="run-line">下次排程 ' + esc(next ? (next.label + ' · ' + next.taipei) : '—') + '</div>' +
+          '<div class="sub">其後 ' + esc(runs.slice(1).map((item) => item.label + ' ' + item.taipei).join('、') || '—') + '</div>' +
+          '<div class="sub">週一至週五 UTC 15:30、19:30、21:15。台北約 23:30、隔日 03:30、隔日 05:15。夏令時美股會早一小時，台北時間不變。</div>' +
+          '<div class="kpi">' +
+            '<div><div class="l">權益</div><div class="n ' + clsOf(totalReturn) + '">' + money(equity) + '</div></div>' +
+            '<div><div class="l">總報酬</div><div class="n ' + clsOf(totalReturn) + '">' + signedPct(totalReturn) + '</div></div>' +
+            '<div><div class="l">勝率</div><div class="n">' + esc(winText) + '</div></div>' +
+            '<div><div class="l">現金 / 持倉</div><div class="n">' + money(state.cash) + '<div class="muted-tiny">' + opens.length + ' / ' + esc(state.config?.maxPositions || 5) + '</div></div></div>' +
+          '</div>' +
+          '<div class="eq-wrap">' + equitySvg(state.equityCurve, capital) + '</div>' +
+          '<div class="muted-tiny" style="margin-top:4px;">' + esc(priceNote) + ' · ' + esc(state.strategy || STRATEGY_NOTE) + '</div>' +
+        '</div>' +
+        '<div class="card"><div class="card-title">持倉中</div>' +
+          (posRows || '<div class="placeholder">目前沒有持倉。</div>') +
+        '</div>' +
+        '<div class="card"><div class="card-title">最近排名</div><div class="card-desc">點代號可到控制室重算。買進且通過風險才會自動開倉。</div>' +
+          (rankRows || '<div class="placeholder">尚無掃描結果。</div>') +
+        '</div>' +
+        '<div class="card"><div class="card-title">已平倉</div>' +
+          (closedRows || '<div class="placeholder">尚無平倉。</div>') +
+        '</div>';
+      autoRendered = true;
+    }
+
+    async function fetchLivePrice(symbol) {
+      const url = 'https://proxy.cors.dev/https://query1.finance.yahoo.com/v8/finance/chart/'
+        + encodeURIComponent(symbol) + '?range=1d&interval=1d&includePrePost=false';
+      const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) throw new Error('quote');
+      const data = await res.json();
+      const price = data.chart?.result?.[0]?.meta?.regularMarketPrice;
+      if (!Number.isFinite(price)) throw new Error('quote');
+      return price;
+    }
+
+    async function refreshAuto() {
+      const errBox = document.getElementById('autoError');
+      const stamp = document.getElementById('autoStamp');
+      try {
+        const res = await fetch('data/state.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('讀不到模擬帳本（HTTP ' + res.status + '）');
+        const state = await res.json();
+        const liveMap = {};
+        await Promise.all((state.openPositions || []).map(async (position) => {
+          const sym = safeSymbol(position.symbol);
+          if (!sym) return;
+          try {
+            liveMap[sym] = { price: await fetchLivePrice(sym) };
+          } catch { /* book price remains */ }
+        }));
+        renderAuto(state, liveMap);
+        lastAutoLoad = Date.now();
+        if (stamp) stamp.textContent = '更新於 ' + new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' });
+        if (errBox) errBox.textContent = '';
+      } catch (err) {
+        if (!autoRendered) {
+          document.getElementById('autoRoot').innerHTML = '<div class="disclaimer">模擬交易，非投資建議</div><div class="error">讀取失敗：' + esc(err.message) + '</div>';
+        } else if (errBox) {
+          errBox.textContent = '更新失敗，仍顯示上次資料：' + err.message;
+        }
+      }
+    }
+
+    function inspectSymbol(sym) {
+      const safe = safeSymbol(sym);
+      if (!safe) return;
+      document.getElementById('symbol').value = safe;
+      showView('room');
+      runFullAuto();
+    }
+
+    document.getElementById('symbol').addEventListener('keydown', (e) => { if (e.key === 'Enter') runFullAuto(); });
+    setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      refreshAuto();
+    }, REFRESH_MS);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && Date.now() - lastAutoLoad > 60000) refreshAuto();
+    });
+
+    window.showView = showView;
+    window.scanOpportunities = scanOpportunities;
+    window.runFullAuto = runFullAuto;
+    window.selectSymbol = selectSymbol;
+    window.clearAll = clearAll;
+    window.addToJournal = addToJournal;
+    window.clearTrades = clearTrades;
+    window.saveFinnhubKey = saveFinnhubKey;
+    window.refreshAuto = refreshAuto;
+    window.inspectSymbol = inspectSymbol;
+
+    refreshAuto();
   </script>
 </body>
 </html>
-

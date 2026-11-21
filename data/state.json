@@ -1,0 +1,1787 @@
+{
+  "version": 1,
+  "disclaimer": "模擬交易，非投資建議",
+  "strategy": "停損 3.5%，目標為風險的 1.8 倍，單筆最大虧損為資金的 1.5%。自動路徑把社群情緒視為中性。",
+  "config": {
+    "paperCapital": 10000,
+    "maxPositions": 5,
+    "maxHoldTradingDays": 10,
+    "currency": "USD"
+  },
+  "initialCapital": 10000,
+  "cash": 34.37,
+  "equity": 10000,
+  "marketSession": "2026-11-20",
+  "lastRun": {
+    "at": "2026-11-21T14:14:33.989Z",
+    "taipei": "2026/11/21（週六） 22:14",
+    "status": "ok",
+    "mode": "seed",
+    "reason": "初始化：使用最近交易日 2026-11-20 的收盤資料建立模擬帳本。之後由排程在交易日自動續跑。",
+    "marketSession": "2026-11-20",
+    "clock": "weekend",
+    "probed": "SPY",
+    "durationMs": 3806,
+    "opened": [
+      "HTFL",
+      "GAP",
+      "GPN"
+    ],
+    "closed": [],
+    "scanned": 40,
+    "failed": []
+  },
+  "nextRuns": [
+    {
+      "at": "2026-11-23T15:30:00.000Z",
+      "taipei": "2026/11/23（週一） 23:30",
+      "label": "開盤後",
+      "id": "open"
+    },
+    {
+      "at": "2026-11-23T19:30:00.000Z",
+      "taipei": "2026/11/24（週二） 03:30",
+      "label": "收盤前",
+      "id": "preclose"
+    },
+    {
+      "at": "2026-11-23T21:15:00.000Z",
+      "taipei": "2026/11/24（週二） 05:15",
+      "label": "收盤後",
+      "id": "after"
+    }
+  ],
+  "openPositions": [
+    {
+      "id": "P-HTFL-1795270473989-1",
+      "symbol": "HTFL",
+      "name": "Heartflow, Inc.",
+      "side": "long",
+      "shares": 92,
+      "entry": 46.69,
+      "stop": 45.06,
+      "target": 49.62,
+      "entryTime": "2026-11-21T14:14:33.989Z",
+      "entrySession": "2026-11-23",
+      "notional": 4295.48,
+      "score": 78,
+      "decisionText": "批准執行",
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量尚可",
+        "利多關鍵字 ×3",
+        "明顯上漲 ≥3%",
+        "新聞淨利多 +3"
+      ],
+      "lastPrice": 46.69,
+      "lastPriceTime": "2026-11-21T14:14:33.989Z",
+      "daysHeld": 0
+    },
+    {
+      "id": "P-GAP-1795270473989-2",
+      "symbol": "GAP",
+      "name": "Gap, Inc. (The)",
+      "side": "long",
+      "shares": 205,
+      "entry": 20.94,
+      "stop": 20.21,
+      "target": 22.25,
+      "entryTime": "2026-11-21T14:14:33.989Z",
+      "entrySession": "2026-11-23",
+      "notional": 4292.7,
+      "score": 74,
+      "decisionText": "批准執行",
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "強勢上漲 ≥5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "lastPrice": 20.94,
+      "lastPriceTime": "2026-11-21T14:14:33.989Z",
+      "daysHeld": 0
+    },
+    {
+      "id": "P-GPN-1795270473989-3",
+      "symbol": "GPN",
+      "name": "Global Payments Inc.",
+      "side": "long",
+      "shares": 15,
+      "entry": 91.83,
+      "stop": 88.62,
+      "target": 97.61,
+      "entryTime": "2026-11-21T14:14:33.989Z",
+      "entrySession": "2026-11-23",
+      "notional": 1377.45,
+      "score": 74,
+      "decisionText": "批准執行",
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×2",
+        "利空關鍵字 ×1",
+        "強勢上漲 ≥5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "lastPrice": 91.83,
+      "lastPriceTime": "2026-11-21T14:14:33.989Z",
+      "daysHeld": 0
+    }
+  ],
+  "closedTrades": [],
+  "equityCurve": [
+    {
+      "t": "2026-11-21T14:14:33.989Z",
+      "taipei": "2026/11/21（週六） 22:14",
+      "session": "2026-11-20",
+      "equity": 10000,
+      "cash": 34.37
+    }
+  ],
+  "lastRanking": [
+    {
+      "rank": 1,
+      "symbol": "HTFL",
+      "name": "Heartflow, Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 46.69,
+      "changePct": 4.62,
+      "volume": 1891055,
+      "scores": {
+        "scout": 75,
+        "news": 86,
+        "sentiment": 73,
+        "composite": 78
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 92,
+      "entry": 46.69,
+      "stop": 45.06,
+      "target": 49.62,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量尚可",
+        "利多關鍵字 ×3",
+        "明顯上漲 ≥3%",
+        "新聞淨利多 +3"
+      ],
+      "headlines": [
+        "Dodging The Heartache In Heartflow",
+        "HeartFlow (HTFL) Surges as Q2 Revenue Beats Consensus and Full-Year Guidance Is Raised"
+      ],
+      "outcome": "opened",
+      "outcomeText": "已開倉",
+      "shares": 92
+    },
+    {
+      "rank": 2,
+      "symbol": "GAP",
+      "name": "Gap, Inc. (The)",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 20.94,
+      "changePct": 11.44,
+      "volume": 28018446,
+      "scores": {
+        "scout": 88,
+        "news": 62,
+        "sentiment": 73,
+        "composite": 74
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 205,
+      "entry": 20.94,
+      "stop": 20.21,
+      "target": 22.25,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "強勢上漲 ≥5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Will Gap (GPS) Stock Get Hit If West Coast Ports Shut Down?",
+        "The Gap Inc. (GAP) Is Showing Wall Street It Can Weather Economic Headwinds"
+      ],
+      "outcome": "opened",
+      "outcomeText": "已開倉",
+      "shares": 205
+    },
+    {
+      "rank": 3,
+      "symbol": "GPN",
+      "name": "Global Payments Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 91.83,
+      "changePct": 9.95,
+      "volume": 9535931,
+      "scores": {
+        "scout": 88,
+        "news": 62,
+        "sentiment": 73,
+        "composite": 74
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 46,
+      "entry": 91.83,
+      "stop": 88.62,
+      "target": 97.61,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×2",
+        "利空關鍵字 ×1",
+        "強勢上漲 ≥5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Global Payments (GPN) Gets a Potential Lifeline as New Takeover Buzz Heats Up",
+        "Global Payments Soars 10% as GTCR Revives Buyout Talk With $50 Billion Takeover Bid"
+      ],
+      "outcome": "opened",
+      "outcomeText": "已開倉",
+      "shares": 15
+    },
+    {
+      "rank": 4,
+      "symbol": "BKE",
+      "name": "Buckle, Inc. (The)",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 44.15,
+      "changePct": 5.67,
+      "volume": 894920,
+      "scores": {
+        "scout": 78,
+        "news": 74,
+        "sentiment": 71,
+        "composite": 74
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 96,
+      "entry": 44.15,
+      "stop": 42.6,
+      "target": 46.94,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日上漲",
+        "利多關鍵字 ×2",
+        "強勢上漲 ≥5%",
+        "新聞淨利多 +2"
+      ],
+      "headlines": [
+        "Buckle Inc (BKE) (Q3 2026) Earnings Call Highlights: Women's and Kids' Growth Offset by Margin ...",
+        "Update: Buckle Shares Rise After Fiscal Q3 Earnings Beat"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "現金不足一手"
+    },
+    {
+      "rank": 5,
+      "symbol": "BIPC",
+      "name": "Brookfield Infrastructure Corpo",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 42.82,
+      "changePct": 4.24,
+      "volume": 9888157,
+      "scores": {
+        "scout": 80,
+        "news": 62,
+        "sentiment": 70,
+        "composite": 71
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 100,
+      "entry": 42.82,
+      "stop": 41.32,
+      "target": 45.52,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "明顯上漲 ≥3%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Brookfield Infrastructure (BIPC) Is Getting Wall Street Excited — Here’s Why",
+        "Brookfield Infrastructure Completes Corporate Simplification -- Brookfield Infrastructure Partners Inc Created"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "現金不足一手"
+    },
+    {
+      "rank": 6,
+      "symbol": "PLMR",
+      "name": "Palomar Holdings, Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 163.59,
+      "changePct": 4.41,
+      "volume": 524071,
+      "scores": {
+        "scout": 70,
+        "news": 74,
+        "sentiment": 67,
+        "composite": 70
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 26,
+      "entry": 163.59,
+      "stop": 157.86,
+      "target": 173.9,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "利多關鍵字 ×2",
+        "明顯上漲 ≥3%",
+        "新聞淨利多 +2"
+      ],
+      "headlines": [
+        "Insurer Tops Alternative Buy Point As Investors Play Defense",
+        "Palomar Holdings, Inc. Announces 2027 Investor Day"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "現金不足一手"
+    },
+    {
+      "rank": 7,
+      "symbol": "TGLS",
+      "name": "Tecnoglass Holdings Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 47.72,
+      "changePct": 3.9,
+      "volume": 689243,
+      "scores": {
+        "scout": 70,
+        "news": 74,
+        "sentiment": 67,
+        "composite": 70
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 89,
+      "entry": 47.72,
+      "stop": 46.05,
+      "target": 50.73,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "利多關鍵字 ×2",
+        "明顯上漲 ≥3%",
+        "新聞淨利多 +2"
+      ],
+      "headlines": [
+        "TGLS Q3 2026 deep dive: margin pressures offset strong backlog and geographic expansion",
+        "What Tecnoglass (TGLS) Said on Its Q3 Earnings Call"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "現金不足一手"
+    },
+    {
+      "rank": 8,
+      "symbol": "GIS",
+      "name": "General Mills, Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 35.74,
+      "changePct": 3.65,
+      "volume": 14666477,
+      "scores": {
+        "scout": 80,
+        "news": 50,
+        "sentiment": 64,
+        "composite": 65
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 120,
+      "entry": 35.74,
+      "stop": 34.49,
+      "target": 37.99,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×1",
+        "明顯上漲 ≥3%",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "General Mills (GIS) is Suddenly Drawing Wall Street’s Attention",
+        "The (Few) Stocks Defying The Tech Selloff"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 9,
+      "symbol": "RKT",
+      "name": "Rocket Companies, Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 13.75,
+      "changePct": 4.25,
+      "volume": 51192274,
+      "scores": {
+        "scout": 80,
+        "news": 50,
+        "sentiment": 64,
+        "composite": 65
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 312,
+      "entry": 13.75,
+      "stop": 13.27,
+      "target": 14.61,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量較大",
+        "明顯上漲 ≥3%",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Rocket Companies (RKT) Just Got a Major Win — Wall Street Is Reacting",
+        "What Could Send Rocket Lab Stock Higher?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 10,
+      "symbol": "BIP",
+      "name": "Brookfield Infrastructure Partn",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 42.81,
+      "changePct": 4.24,
+      "volume": 4827811,
+      "scores": {
+        "scout": 75,
+        "news": 50,
+        "sentiment": 60,
+        "composite": 62
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 100,
+      "entry": 42.81,
+      "stop": 41.31,
+      "target": 45.51,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量尚可",
+        "明顯上漲 ≥3%",
+        "新聞極性中性",
+        "成交量偏高"
+      ],
+      "headlines": [
+        "Brookfield Infrastructure (BIPC) Is Getting Wall Street Excited — Here’s Why",
+        "Brookfield Infrastructure Completes Corporate Simplification -- Brookfield Infrastructure Partners Inc Created"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 11,
+      "symbol": "UNH",
+      "name": "UnitedHealth Group Incorporated",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 339.85,
+      "changePct": 2.84,
+      "volume": 12772826,
+      "scores": {
+        "scout": 73,
+        "news": 50,
+        "sentiment": 60,
+        "composite": 61
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 12,
+      "entry": 339.85,
+      "stop": 327.96,
+      "target": 361.25,
+      "reasons": [
+        "有一定波動",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×1",
+        "溫和上漲",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "UnitedHealth Keeps Sliding on Washington’s Audit Plan: Why TD Cowen Sees 34% Upside",
+        "How Analyst Upgrade At UnitedHealth Group Stock Has Changed Its Investment Story"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 12,
+      "symbol": "ARDT",
+      "name": "Ardent Health, Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 15.08,
+      "changePct": 4,
+      "volume": 1540904,
+      "scores": {
+        "scout": 75,
+        "news": 50,
+        "sentiment": 56,
+        "composite": 60
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 283,
+      "entry": 15.08,
+      "stop": 14.55,
+      "target": 16.03,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量尚可",
+        "明顯上漲 ≥3%",
+        "新聞極性中性"
+      ],
+      "headlines": [
+        "Can Ardent Health (ARDT) Keep Trading At A Discount After Boone?",
+        "Eight Ardent Health Facilities Earn ‘A’ Hospital Safety Grades from The Leapfrog Group for Fall 2026 Grading Period"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 13,
+      "symbol": "AVGO",
+      "name": "Broadcom Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 304.41,
+      "changePct": -12.19,
+      "volume": 59550482,
+      "scores": {
+        "scout": 75,
+        "news": 62,
+        "sentiment": 44,
+        "composite": 60
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 14,
+      "entry": 304.41,
+      "stop": 293.76,
+      "target": 323.58,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "重挫 ≤-5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "The 1 Thing I'll Be Watching When Broadcom Reports on Dec. 9",
+        "Nvidia’s Worst Losing Streak Since 2008 Now Has an SEC Problem. What Shareholders Need to Know"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 14,
+      "symbol": "INTC",
+      "name": "Intel Corporation",
+      "sources": [
+        "active"
+      ],
+      "session": "2026-11-20",
+      "price": 51.28,
+      "changePct": -7.97,
+      "volume": 207749593,
+      "scores": {
+        "scout": 75,
+        "news": 62,
+        "sentiment": 44,
+        "composite": 60
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 83,
+      "entry": 51.28,
+      "stop": 49.49,
+      "target": 54.5,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "重挫 ≤-5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "A $3.8 Billion Fund Just Bought These 3 Stocks",
+        "Jensen Huang's next move: Wall Street floats Intel and SpaceX, but bettors are banking on a surprise second act"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 15,
+      "symbol": "IREN",
+      "name": "IREN LIMITED",
+      "sources": [
+        "active"
+      ],
+      "session": "2026-11-20",
+      "price": 11.82,
+      "changePct": -17.97,
+      "volume": 131457012,
+      "scores": {
+        "scout": 75,
+        "news": 62,
+        "sentiment": 44,
+        "composite": 60
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 365,
+      "entry": 11.82,
+      "stop": 11.41,
+      "target": 12.56,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×2",
+        "利空關鍵字 ×1",
+        "重挫 ≤-5%",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Bitcoin Slumps Below $62,000. CleanSpark’s Direct Cost Was $82,727 a Coin",
+        "Riot Platforms Just Gained 18% in a Month on a $28 Billion AI Lease. Take Profits, or Buy More?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 16,
+      "symbol": "HDB",
+      "name": "HDFC Bank Limited",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 27.42,
+      "changePct": 4.5,
+      "volume": 23927205,
+      "scores": {
+        "scout": 80,
+        "news": 38,
+        "sentiment": 58,
+        "composite": 59
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 156,
+      "entry": 27.42,
+      "stop": 26.46,
+      "target": 29.15,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量較大",
+        "利空關鍵字 ×1",
+        "明顯上漲 ≥3%",
+        "新聞淨利空 -1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "HDFC Bank (HDB) Finds Its Spark Amid Wall Street Selloff",
+        "Asian Equities Traded in the US as American Depositary Receipts Decline in Friday Trading; Tumble 7% for Week"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 17,
+      "symbol": "KVYO",
+      "name": "Klaviyo, Inc. Series A",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 22.24,
+      "changePct": 4.41,
+      "volume": 9049301,
+      "scores": {
+        "scout": 80,
+        "news": 38,
+        "sentiment": 58,
+        "composite": 59
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 192,
+      "entry": 22.24,
+      "stop": 21.46,
+      "target": 23.64,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量較大",
+        "利空關鍵字 ×1",
+        "明顯上漲 ≥3%",
+        "新聞淨利空 -1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Klaviyo Inc. (KVYO) Grabs Wall Street’s Attention Amid Market Bloodbath",
+        "Intuit Sinks 13% on Revenue Guidance Cut as CEO Calls AI Tools “New Front Doors for Discovery”"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 18,
+      "symbol": "PLBL",
+      "name": "Polibeli Group Ltd",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 9.74,
+      "changePct": 3.62,
+      "volume": 133317,
+      "scores": {
+        "scout": 70,
+        "news": 50,
+        "sentiment": 56,
+        "composite": 59
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 441,
+      "entry": 9.74,
+      "stop": 9.4,
+      "target": 10.35,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "明顯上漲 ≥3%",
+        "新聞極性中性"
+      ],
+      "headlines": [
+        "Polibeli Teams Up with Tencent WorkBuddy to Pursue a Global AI Agent Market Projected to Reach $182.9 Billion by 2033"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 19,
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "sources": [
+        "watch",
+        "active"
+      ],
+      "session": "2026-11-20",
+      "price": 342.56,
+      "changePct": -1.9,
+      "volume": 80450240,
+      "scores": {
+        "scout": 60,
+        "news": 62,
+        "sentiment": 52,
+        "composite": 58
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 12,
+      "entry": 342.56,
+      "stop": 330.57,
+      "target": 364.14,
+      "reasons": [
+        "有一定波動",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "明顯下跌",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Is Dell Stock Really Cheap?",
+        "$1 Million In Cash: Buy Stocks Now Or Wait?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 20,
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 265.29,
+      "changePct": -2.7,
+      "volume": 57297123,
+      "scores": {
+        "scout": 60,
+        "news": 62,
+        "sentiment": 52,
+        "composite": 58
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 16,
+      "entry": 265.29,
+      "stop": 256,
+      "target": 282.01,
+      "reasons": [
+        "有一定波動",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "明顯下跌",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Hank Paulson Has “Never Seen So Much Money Chasing One Opportunity.” That’s a Problem for Microsoft, Amazon and Alphabet",
+        "Warren Buffett Successor Greg Abel Piled $28 Billion Into This Stock in the First Half of 2026, But Opted Not to Buy More at a Lower Price Last Quarter"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 21,
+      "symbol": "COST",
+      "name": "Costco Wholesale Corporation",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 1102.15,
+      "changePct": 0.76,
+      "volume": 4129918,
+      "scores": {
+        "scout": 53,
+        "news": 62,
+        "sentiment": 58,
+        "composite": 58
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 3,
+      "entry": 1102.15,
+      "stop": 1063.57,
+      "target": 1171.59,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量尚可",
+        "利多關鍵字 ×1",
+        "小幅上漲",
+        "新聞淨利多 +1",
+        "成交量偏高"
+      ],
+      "headlines": [
+        "Walmart CFO Expects “the Next 5 Years to Look Better Than the Last 5 Years.” At Its Premium Multiple, It Has To",
+        "She Tastes Chemicals in the Thanksgiving Whipped Cream and Spends 3 Nights in the Hospital Under “Observation,” Leaving Her Without Medicare Rehab Coverage and Facing a $9,450 Bill"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 22,
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 270.47,
+      "changePct": 1.25,
+      "volume": 11918787,
+      "scores": {
+        "scout": 58,
+        "news": 50,
+        "sentiment": 56,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 15,
+      "entry": 270.47,
+      "stop": 261,
+      "target": 287.52,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×1",
+        "小幅上漲",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "5 Dividend Kings to Buy for Lifelong Income Before the End of November",
+        "How Retirees Can Turn $450,000 Into Passive Income With These 5 Dividend Stocks"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 23,
+      "symbol": "PG",
+      "name": "Procter & Gamble Company (The)",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 169.37,
+      "changePct": 0.91,
+      "volume": 11950601,
+      "scores": {
+        "scout": 58,
+        "news": 50,
+        "sentiment": 56,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 25,
+      "entry": 169.37,
+      "stop": 163.44,
+      "target": 180.04,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×1",
+        "小幅上漲",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "5 Dividend Kings to Buy for Lifelong Income Before the End of November",
+        "What Are Estee Lauder Investors Betting On?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 24,
+      "symbol": "XOM",
+      "name": "ExxonMobil Holdings Corporation",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 159.99,
+      "changePct": 0.67,
+      "volume": 18670713,
+      "scores": {
+        "scout": 58,
+        "news": 50,
+        "sentiment": 56,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 26,
+      "entry": 159.99,
+      "stop": 154.39,
+      "target": 170.07,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "小幅上漲",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "How Many Shares of Chevron, Shell or Exxon Pay $1,000 a Month in Dividends?",
+        "TechnipFMC (FTI) Stock May Be 43% Undervalued Following Guyana Contract Win"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 25,
+      "symbol": "ANT",
+      "name": "Anthropic, PBC",
+      "sources": [
+        "active"
+      ],
+      "session": "2026-11-20",
+      "price": 88.91,
+      "changePct": -8.5,
+      "volume": 399629474,
+      "scores": {
+        "scout": 75,
+        "news": 50,
+        "sentiment": 39,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 48,
+      "entry": 88.91,
+      "stop": 85.8,
+      "target": 94.51,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "重挫 ≤-5%",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Anthropic co-founder Tom Brown to donate to Trump Accounts after company’s $93.5B IPO, following SpaceX president’s lead",
+        "Anthropic and SpaceX have created 8,600 new millionaires, but Ryan Serhant says the real winner is in real estate"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 26,
+      "symbol": "META",
+      "name": "Meta Platforms, Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 560.84,
+      "changePct": -5.93,
+      "volume": 25589154,
+      "scores": {
+        "scout": 75,
+        "news": 50,
+        "sentiment": 39,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 7,
+      "entry": 560.84,
+      "stop": 541.21,
+      "target": 596.17,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×1",
+        "重挫 ≤-5%",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Hank Paulson Has “Never Seen So Much Money Chasing One Opportunity.” That’s a Problem for Microsoft, Amazon and Alphabet",
+        "$1 Million In Cash: Buy Stocks Now Or Wait?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 27,
+      "symbol": "SNDK",
+      "name": "Sandisk Corporation",
+      "sources": [
+        "active"
+      ],
+      "session": "2026-11-19",
+      "price": 79.24,
+      "changePct": -18.33,
+      "volume": 127147042,
+      "scores": {
+        "scout": 75,
+        "news": 50,
+        "sentiment": 39,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 54,
+      "entry": 79.24,
+      "stop": 76.47,
+      "target": 84.23,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "重挫 ≤-5%",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "A $3.8 Billion Fund Just Bought These 3 Stocks",
+        "SK Hynix Is About to Become the Biggest Shareholder of Rival Kioxia"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "行情日期不一致"
+    },
+    {
+      "rank": 28,
+      "symbol": "TSLA",
+      "name": "Tesla, Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 345.82,
+      "changePct": -7.64,
+      "volume": 45986617,
+      "scores": {
+        "scout": 75,
+        "news": 50,
+        "sentiment": 39,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 12,
+      "entry": 345.82,
+      "stop": 333.72,
+      "target": 367.6,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "重挫 ≤-5%",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "H-E-B, Southwest, Dell lead Forbes' best Texas companies list",
+        "Elon Musk Calls Anthropic’s Models ‘Great Products,’ Jassy Says ‘We’re Big Believers’: Mag 7 Voices This Week"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 29,
+      "symbol": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 246.82,
+      "changePct": -4.1,
+      "volume": 74106823,
+      "scores": {
+        "scout": 67,
+        "news": 50,
+        "sentiment": 42,
+        "composite": 53
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 17,
+      "entry": 246.82,
+      "stop": 238.18,
+      "target": 262.37,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日下跌",
+        "成交量較大",
+        "大幅下跌",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Walmart CFO Expects “the Next 5 Years to Look Better Than the Last 5 Years.” At Its Premium Multiple, It Has To",
+        "Hank Paulson Has “Never Seen So Much Money Chasing One Opportunity.” That’s a Problem for Microsoft, Amazon and Alphabet"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 30,
+      "symbol": "JPM",
+      "name": "JP Morgan Chase & Co.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 310.53,
+      "changePct": -3.03,
+      "volume": 12504254,
+      "scores": {
+        "scout": 67,
+        "news": 50,
+        "sentiment": 42,
+        "composite": 53
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 13,
+      "entry": 310.53,
+      "stop": 299.66,
+      "target": 330.1,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日下跌",
+        "成交量較大",
+        "大幅下跌",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "How Retirees Can Turn $450,000 Into Passive Income With These 5 Dividend Stocks",
+        "JPMorgan Chase Financial Company LLC Declares Quarterly Coupon on Alerian MLP Index ETN"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 31,
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 484.52,
+      "changePct": -2.77,
+      "volume": 47123194,
+      "scores": {
+        "scout": 60,
+        "news": 50,
+        "sentiment": 46,
+        "composite": 52
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 8,
+      "entry": 484.52,
+      "stop": 467.56,
+      "target": 515.05,
+      "reasons": [
+        "有一定波動",
+        "今日下跌",
+        "成交量較大",
+        "明顯下跌",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Hank Paulson Has “Never Seen So Much Money Chasing One Opportunity.” That’s a Problem for Microsoft, Amazon and Alphabet",
+        "The CEO of Telefónica Knows He’s on the Front Lines of Europe’s Scramble for Autonomy"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 32,
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "sources": [
+        "watch",
+        "active"
+      ],
+      "session": "2026-11-20",
+      "price": 125.53,
+      "changePct": -14.01,
+      "volume": 626274281,
+      "scores": {
+        "scout": 75,
+        "news": 38,
+        "sentiment": 33,
+        "composite": 49
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 34,
+      "entry": 125.53,
+      "stop": 121.14,
+      "target": 133.43,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×2",
+        "重挫 ≤-5%",
+        "新聞淨利空 -1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Why Isn't Walmart's Stock Bouncing Back After Weak Earnings Results?",
+        "Nvidia Stock Falls to $150 Per Share. Is It a Buy Now?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 33,
+      "symbol": "SPCX",
+      "name": "Space Exploration Technologies ",
+      "sources": [
+        "active"
+      ],
+      "session": "2026-11-20",
+      "price": 127.79,
+      "changePct": -7.69,
+      "volume": 124076688,
+      "scores": {
+        "scout": 75,
+        "news": 38,
+        "sentiment": 33,
+        "composite": 49
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 33,
+      "entry": 127.79,
+      "stop": 123.32,
+      "target": 135.84,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日下跌",
+        "成交量較大",
+        "利空關鍵字 ×1",
+        "重挫 ≤-5%",
+        "新聞淨利空 -1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Anthropic co-founder Tom Brown to donate to Trump Accounts after company’s $93.5B IPO, following SpaceX president’s lead",
+        "Musk Says Starlink “Started With a Speech in Seattle.” Eleven Years Later, It Has 13.6 Million Users"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 34,
+      "symbol": "BRK-B",
+      "name": "Berkshire Hathaway Inc. New",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 570,
+      "changePct": -0.36,
+      "volume": 6712368,
+      "scores": {
+        "scout": 45,
+        "news": 50,
+        "sentiment": 46,
+        "composite": 47
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 7,
+      "entry": 570,
+      "stop": 550.05,
+      "target": 605.91,
+      "reasons": [
+        "波動較小",
+        "今日下跌",
+        "成交量較大",
+        "小幅下跌",
+        "無足夠新聞參考",
+        "成交量偏高"
+      ],
+      "headlines": [],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 35,
+      "symbol": "BGSI",
+      "name": "Boyd Group Services Inc.",
+      "sources": [
+        "gainer"
+      ],
+      "session": "2026-11-20",
+      "price": 73.62,
+      "changePct": 4.25,
+      "volume": 71565,
+      "scores": {
+        "scout": 70,
+        "news": 26,
+        "sentiment": 44,
+        "composite": 47
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 58,
+      "entry": 73.62,
+      "stop": 71.04,
+      "target": 78.26,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "利空關鍵字 ×2",
+        "明顯上漲 ≥3%",
+        "新聞淨利空 -2"
+      ],
+      "headlines": [
+        "Auto & Transport Roundup: Market Talk",
+        "Boyd Group: 3 Key Takeaways for Long-Term Investors"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 36,
+      "symbol": "LLY",
+      "name": "Eli Lilly and Company",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 1347.11,
+      "changePct": -0.3,
+      "volume": 3540083,
+      "scores": {
+        "scout": 40,
+        "news": 50,
+        "sentiment": 49,
+        "composite": 46
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 3,
+      "entry": 1347.11,
+      "stop": 1299.96,
+      "target": 1431.98,
+      "reasons": [
+        "波動較小",
+        "今日下跌",
+        "成交量尚可",
+        "利多關鍵字 ×1",
+        "利空關鍵字 ×1",
+        "幾乎平盤",
+        "新聞極性中性",
+        "成交量偏高"
+      ],
+      "headlines": [
+        "Merck Sinks 9.5% in a Week as It Scraps a Blood Cancer Drug and Healthcare Sells Off. Time to Buy?",
+        "How to invest in transformational innovation"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 37,
+      "symbol": "HD",
+      "name": "Home Depot, Inc. (The)",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 339.04,
+      "changePct": 0.7,
+      "volume": 7893881,
+      "scores": {
+        "scout": 58,
+        "news": 26,
+        "sentiment": 40,
+        "composite": 41
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 12,
+      "entry": 339.04,
+      "stop": 327.17,
+      "target": 360.41,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "利空關鍵字 ×2",
+        "小幅上漲",
+        "新聞淨利空 -2",
+        "成交量偏高"
+      ],
+      "headlines": [
+        "Should CEO Change Require Action From Home Depot Stock Investors?",
+        "Shopping Till We Drop"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 38,
+      "symbol": "NFLX",
+      "name": "Netflix, Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 56.73,
+      "changePct": -2.96,
+      "volume": 67967356,
+      "scores": {
+        "scout": 60,
+        "news": 26,
+        "sentiment": 34,
+        "composite": 40
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 75,
+      "entry": 56.73,
+      "stop": 54.74,
+      "target": 60.31,
+      "reasons": [
+        "有一定波動",
+        "今日下跌",
+        "成交量較大",
+        "利空關鍵字 ×2",
+        "明顯下跌",
+        "新聞淨利空 -2",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Bill Ackman’s Top 10 Stocks After Selling Stakes to Open a Brand-New Position",
+        "Prediction: Netflix and Disney Will “Blame Grand Theft Auto” for Falling Viewership, per Scott Galloway"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 39,
+      "symbol": "V",
+      "name": "Visa Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 401.87,
+      "changePct": -0.09,
+      "volume": 8407291,
+      "scores": {
+        "scout": 45,
+        "news": 14,
+        "sentiment": 35,
+        "composite": 31
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 10,
+      "entry": 401.87,
+      "stop": 387.8,
+      "target": 427.2,
+      "reasons": [
+        "波動較小",
+        "今日下跌",
+        "成交量較大",
+        "利空關鍵字 ×3",
+        "幾乎平盤",
+        "新聞淨利空 -3",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Prologis Has Gone Nowhere in a Year. Former Visa CEO Alfred Kelly Just Bought $587,000 of Stock",
+        "Bill Ackman’s Top 10 Stocks After Selling Stakes to Open a Brand-New Position"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    },
+    {
+      "rank": 40,
+      "symbol": "MA",
+      "name": "Mastercard Incorporated",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-20",
+      "price": 625.59,
+      "changePct": -0.15,
+      "volume": 3668378,
+      "scores": {
+        "scout": 40,
+        "news": 14,
+        "sentiment": 31,
+        "composite": 28
+      },
+      "decision": "skip",
+      "action": "reject",
+      "decisionText": "拒絕：綜合分數偏低",
+      "riskPass": true,
+      "suggestedShares": 6,
+      "entry": 625.59,
+      "stop": 603.69,
+      "target": 665.01,
+      "reasons": [
+        "波動較小",
+        "今日下跌",
+        "成交量尚可",
+        "利空關鍵字 ×3",
+        "幾乎平盤",
+        "新聞淨利空 -3",
+        "成交量偏高"
+      ],
+      "headlines": [
+        "Bill Ackman’s Top 10 Stocks After Selling Stakes to Open a Brand-New Position",
+        "Shopping Till We Drop"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "拒絕：綜合分數偏低"
+    }
+  ],
+  "lastRankingAt": "2026-11-21T14:14:33.989Z",
+  "stats": {
+    "closedCount": 0,
+    "wins": 0,
+    "losses": 0,
+    "breakeven": 0,
+    "winRate": null,
+    "realizedPnl": 0,
+    "equity": 10000,
+    "cash": 34.37,
+    "totalReturn": 0
+  }
+}
