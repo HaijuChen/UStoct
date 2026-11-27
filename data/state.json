@@ -13,27 +13,21 @@
   "equity": 10822.31,
   "marketSession": "2026-11-27",
   "lastRun": {
-    "at": "2026-11-27T20:22:13.771Z",
-    "taipei": "2026/11/28（週六） 04:22",
+    "at": "2026-11-27T22:11:07.120Z",
+    "taipei": "2026/11/28（週六） 06:11",
     "status": "ok",
     "mode": "auto",
     "reason": "已更新 2026-11-27 的模擬帳本。",
     "marketSession": "2026-11-27",
     "clock": "session",
     "probed": "SPY",
-    "durationMs": 6468,
+    "durationMs": 5288,
     "opened": [],
     "closed": [],
     "scanned": 40,
     "failed": []
   },
   "nextRuns": [
-    {
-      "at": "2026-11-27T21:15:00.000Z",
-      "taipei": "2026/11/28（週六） 05:15",
-      "label": "收盤後",
-      "id": "after"
-    },
     {
       "at": "2026-11-30T15:30:00.000Z",
       "taipei": "2026/11/30（週一） 23:30",
@@ -45,6 +39,12 @@
       "taipei": "2026/12/01（週二） 03:30",
       "label": "收盤前",
       "id": "preclose"
+    },
+    {
+      "at": "2026-11-30T21:15:00.000Z",
+      "taipei": "2026/12/01（週二） 05:15",
+      "label": "收盤後",
+      "id": "after"
     }
   ],
   "openPositions": [
@@ -72,7 +72,7 @@
         "成交量偏高"
       ],
       "lastPrice": 24.71,
-      "lastPriceTime": "2026-11-27T20:22:13.771Z",
+      "lastPriceTime": "2026-11-27T22:11:07.120Z",
       "daysHeld": 3
     },
     {
@@ -97,7 +97,7 @@
         "新聞淨利多 +3"
       ],
       "lastPrice": 89.95,
-      "lastPriceTime": "2026-11-27T20:22:13.771Z",
+      "lastPriceTime": "2026-11-27T22:11:07.120Z",
       "daysHeld": 2
     },
     {
@@ -124,7 +124,7 @@
         "成交量明顯放大"
       ],
       "lastPrice": 7.66,
-      "lastPriceTime": "2026-11-27T20:22:13.771Z",
+      "lastPriceTime": "2026-11-27T22:11:07.120Z",
       "daysHeld": 1
     },
     {
@@ -149,7 +149,7 @@
         "新聞淨利多 +3"
       ],
       "lastPrice": 26.14,
-      "lastPriceTime": "2026-11-27T20:22:13.771Z",
+      "lastPriceTime": "2026-11-27T22:11:07.120Z",
       "daysHeld": 1
     },
     {
@@ -177,7 +177,7 @@
         "成交量明顯放大"
       ],
       "lastPrice": 12.91,
-      "lastPriceTime": "2026-11-27T20:22:13.771Z",
+      "lastPriceTime": "2026-11-27T22:11:07.120Z",
       "daysHeld": 1
     }
   ],
@@ -634,11 +634,101 @@
       "session": "2026-11-27",
       "equity": 10822.31,
       "cash": 2.34
+    },
+    {
+      "t": "2026-11-27T22:11:07.120Z",
+      "taipei": "2026/11/28（週六） 06:11",
+      "session": "2026-11-27",
+      "equity": 10822.31,
+      "cash": 2.34
     }
   ],
   "lastRanking": [
     {
       "rank": 1,
+      "symbol": "ANT",
+      "name": "Anthropic, PBC",
+      "sources": [
+        "gainer",
+        "active"
+      ],
+      "session": "2026-11-27",
+      "price": 91.88,
+      "changePct": 10.98,
+      "volume": 143058437,
+      "scores": {
+        "scout": 88,
+        "news": 86,
+        "sentiment": 85,
+        "composite": 86
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 46,
+      "entry": 91.88,
+      "stop": 88.66,
+      "target": 97.68,
+      "reasons": [
+        "單日波動 ≥5%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×3",
+        "強勢上漲 ≥5%",
+        "新聞淨利多 +3",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Can Record Black Friday Spending Lift Amazon Stock?",
+        "How Cathie Wood's Ark Played Wednesday's Whipsaw Action"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "持倉已滿"
+    },
+    {
+      "rank": 2,
+      "symbol": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-27",
+      "price": 254.12,
+      "changePct": 3.96,
+      "volume": 27148968,
+      "scores": {
+        "scout": 80,
+        "news": 86,
+        "sentiment": 81,
+        "composite": 82
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 16,
+      "entry": 254.12,
+      "stop": 245.23,
+      "target": 270.12,
+      "reasons": [
+        "單日波動 ≥3%",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×3",
+        "明顯上漲 ≥3%",
+        "新聞淨利多 +3",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Billionaire Chase Coleman’s Tiger Global Raised Its Cerebras Stake 48% to $790 Million",
+        "5 Best Tech Stocks to Buy for 2027 According to Hedge Funds"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "持倉已滿"
+    },
+    {
+      "rank": 3,
       "symbol": "ITUB",
       "name": "Itau Unibanco Banco Holding SA",
       "sources": [
@@ -647,7 +737,7 @@
       "session": "2026-11-27",
       "price": 7.66,
       "changePct": 11.34,
-      "volume": 40864903,
+      "volume": 40878179,
       "scores": {
         "scout": 88,
         "news": 74,
@@ -679,7 +769,7 @@
       "outcomeText": "已有持倉"
     },
     {
-      "rank": 2,
+      "rank": 4,
       "symbol": "TSLA",
       "name": "Tesla, Inc.",
       "sources": [
@@ -720,90 +810,6 @@
       "outcomeText": "持倉已滿"
     },
     {
-      "rank": 3,
-      "symbol": "AVGO",
-      "name": "Broadcom Inc.",
-      "sources": [
-        "watch"
-      ],
-      "session": "2026-11-27",
-      "price": 312.34,
-      "changePct": 3.82,
-      "volume": 17045811,
-      "scores": {
-        "scout": 80,
-        "news": 74,
-        "sentiment": 75,
-        "composite": 76
-      },
-      "decision": "buy",
-      "action": "approve",
-      "decisionText": "批准執行",
-      "riskPass": true,
-      "suggestedShares": 13,
-      "entry": 312.34,
-      "stop": 301.41,
-      "target": 332.01,
-      "reasons": [
-        "單日波動 ≥3%",
-        "今日上漲",
-        "成交量較大",
-        "利多關鍵字 ×2",
-        "明顯上漲 ≥3%",
-        "新聞淨利多 +2",
-        "成交量明顯放大"
-      ],
-      "headlines": [
-        "Broadcom Stocks Climb 2.19% as $1 Billion Anthropic Stake Turns Positive",
-        "Skyworks (SWKS) Stock Is Up 6.5% Today Along With Chip Rally"
-      ],
-      "outcome": "skipped",
-      "outcomeText": "持倉已滿"
-    },
-    {
-      "rank": 4,
-      "symbol": "ANT",
-      "name": "Anthropic, PBC",
-      "sources": [
-        "gainer",
-        "active"
-      ],
-      "session": "2026-11-27",
-      "price": 91.88,
-      "changePct": 10.98,
-      "volume": 143058437,
-      "scores": {
-        "scout": 88,
-        "news": 62,
-        "sentiment": 73,
-        "composite": 74
-      },
-      "decision": "buy",
-      "action": "approve",
-      "decisionText": "批准執行",
-      "riskPass": true,
-      "suggestedShares": 46,
-      "entry": 91.88,
-      "stop": 88.66,
-      "target": 97.68,
-      "reasons": [
-        "單日波動 ≥5%",
-        "今日上漲",
-        "成交量較大",
-        "利多關鍵字 ×2",
-        "利空關鍵字 ×1",
-        "強勢上漲 ≥5%",
-        "新聞淨利多 +1",
-        "成交量明顯放大"
-      ],
-      "headlines": [
-        "Dow Jones Futures: Stock Market Makes Bullish Move, Tesla Leads 7 New Buys; Nvidia's Jensen Huang Heads To Capitol Hill",
-        "Anthropic Stocks Jump 8.49% Back Above IPO Price as ARK Keeps Buying"
-      ],
-      "outcome": "skipped",
-      "outcomeText": "持倉已滿"
-    },
-    {
       "rank": 5,
       "symbol": "EXK",
       "name": "Endeavour Silver Corporation",
@@ -813,7 +819,7 @@
       "session": "2026-11-27",
       "price": 6.87,
       "changePct": 11.89,
-      "volume": 8081809,
+      "volume": 8103190,
       "scores": {
         "scout": 88,
         "news": 62,
@@ -1082,23 +1088,65 @@
         "成交量明顯放大"
       ],
       "headlines": [
-        "Alphabet Stocks Move Lower as Record Credit Spreads Shadow AI Spending",
-        "Jim Cramer Is Still Bullish On These 5 Tech Stocks Despite AI Bear Market"
+        "5 Best Tech Stocks to Buy for 2027 According to Hedge Funds",
+        "Jensen Huang Is Back. Nvidia’s (NVDA) Bull Case Remains"
       ],
       "outcome": "skipped",
       "outcomeText": "持倉已滿"
     },
     {
       "rank": 12,
-      "symbol": "AMZN",
-      "name": "Amazon.com, Inc.",
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "sources": [
+        "watch",
+        "active"
+      ],
+      "session": "2026-11-27",
+      "price": 150.49,
+      "changePct": 0.8,
+      "volume": 180940449,
+      "scores": {
+        "scout": 58,
+        "news": 86,
+        "sentiment": 74,
+        "composite": 73
+      },
+      "decision": "buy",
+      "action": "approve",
+      "decisionText": "批准執行",
+      "riskPass": true,
+      "suggestedShares": 28,
+      "entry": 150.49,
+      "stop": 145.22,
+      "target": 159.98,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×3",
+        "小幅上漲",
+        "新聞淨利多 +3",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "Billionaire Chase Coleman’s Tiger Global Raised Its Cerebras Stake 48% to $790 Million",
+        "5 Best Tech Stocks to Buy for 2027 According to Hedge Funds"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "持倉已滿"
+    },
+    {
+      "rank": 13,
+      "symbol": "AVGO",
+      "name": "Broadcom Inc.",
       "sources": [
         "watch"
       ],
       "session": "2026-11-27",
-      "price": 254.12,
-      "changePct": 3.96,
-      "volume": 27148968,
+      "price": 312.34,
+      "changePct": 3.82,
+      "volume": 17045811,
       "scores": {
         "scout": 80,
         "news": 62,
@@ -1109,28 +1157,29 @@
       "action": "approve",
       "decisionText": "批准執行",
       "riskPass": true,
-      "suggestedShares": 16,
-      "entry": 254.12,
-      "stop": 245.23,
-      "target": 270.12,
+      "suggestedShares": 13,
+      "entry": 312.34,
+      "stop": 301.41,
+      "target": 332.01,
       "reasons": [
         "單日波動 ≥3%",
         "今日上漲",
         "成交量較大",
-        "利多關鍵字 ×1",
+        "利多關鍵字 ×2",
+        "利空關鍵字 ×1",
         "明顯上漲 ≥3%",
         "新聞淨利多 +1",
         "成交量明顯放大"
       ],
       "headlines": [
-        "Amazon, Target and Walmart Chase Holiday Toy Spending",
-        "Amazon’s AWS Profit Rose 55%. Can It Absorb a $220 Billion Capex Bill?"
+        "Jensen Huang Is Back. Nvidia’s (NVDA) Bull Case Remains",
+        "What Broadcom Stock's Google Chip Order Cut Means For Shareholders"
       ],
       "outcome": "skipped",
       "outcomeText": "持倉已滿"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
       "sources": [
@@ -1164,14 +1213,14 @@
         "成交量明顯放大"
       ],
       "headlines": [
-        "Top Stock Reports for Alphabet, Meta & Bank of America",
-        "AppLovin vs. Magnite: Which Technology Stock Is a Better Buy for 2027?"
+        "5 Best Tech Stocks to Buy for 2027 According to Hedge Funds",
+        "Jensen Huang Is Back. Nvidia’s (NVDA) Bull Case Remains"
       ],
       "outcome": "skipped",
       "outcomeText": "持倉已滿"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "symbol": "NU",
       "name": "Nu Holdings Ltd.",
       "sources": [
@@ -1180,7 +1229,7 @@
       "session": "2026-11-27",
       "price": 12.91,
       "changePct": 4.45,
-      "volume": 68057007,
+      "volume": 68259753,
       "scores": {
         "scout": 80,
         "news": 62,
@@ -1213,7 +1262,7 @@
       "outcomeText": "已有持倉"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "symbol": "AYA",
       "name": "Aya Gold & Silver Inc.",
       "sources": [
@@ -1253,16 +1302,16 @@
       "outcomeText": "持倉已滿"
     },
     {
-      "rank": 16,
-      "symbol": "V",
-      "name": "Visa Inc.",
+      "rank": 17,
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
       "sources": [
         "watch"
       ],
       "session": "2026-11-27",
-      "price": 429.56,
-      "changePct": 1.22,
-      "volume": 3621128,
+      "price": 275.51,
+      "changePct": 0.57,
+      "volume": 3057089,
       "scores": {
         "scout": 53,
         "news": 86,
@@ -1273,10 +1322,10 @@
       "action": "reduce",
       "decisionText": "縮小部位執行",
       "riskPass": true,
-      "suggestedShares": 9,
-      "entry": 429.56,
-      "stop": 414.53,
-      "target": 456.61,
+      "suggestedShares": 15,
+      "entry": 275.51,
+      "stop": 265.87,
+      "target": 292.86,
       "reasons": [
         "波動較小",
         "今日上漲",
@@ -1287,14 +1336,14 @@
         "成交量偏高"
       ],
       "headlines": [
-        "What Is The One Risk Facing Visa Stock Now?",
-        "10 Best Strong Buy Stocks to Buy and Hold For the Next 5 Years"
+        "Sector Update: Healthcare Stocks Edge Higher Friday Afternoon",
+        "Can BMY's Cobenfy Unlock Growth in Alzheimer's Psychosis?"
       ],
       "outcome": "skipped",
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 17,
+      "rank": 18,
       "symbol": "ELPC",
       "name": "Companhia Paranaense de Energia",
       "sources": [
@@ -1303,7 +1352,7 @@
       "session": "2026-11-27",
       "price": 11.71,
       "changePct": 13.36,
-      "volume": 565218,
+      "volume": 565320,
       "scores": {
         "scout": 78,
         "news": 62,
@@ -1334,7 +1383,7 @@
       "outcomeText": "持倉已滿"
     },
     {
-      "rank": 18,
+      "rank": 19,
       "symbol": "SA",
       "name": "Seabridge Gold, Inc.",
       "sources": [
@@ -1343,7 +1392,7 @@
       "session": "2026-11-27",
       "price": 21.52,
       "changePct": 13.32,
-      "volume": 789760,
+      "volume": 791226,
       "scores": {
         "scout": 78,
         "news": 62,
@@ -1373,7 +1422,7 @@
       "outcomeText": "持倉已滿"
     },
     {
-      "rank": 19,
+      "rank": 20,
       "symbol": "RIG",
       "name": "Transocean Ltd (Switzerland)",
       "sources": [
@@ -1382,7 +1431,7 @@
       "session": "2026-11-27",
       "price": 5.18,
       "changePct": 2.98,
-      "volume": 68297407,
+      "volume": 68428623,
       "scores": {
         "scout": 73,
         "news": 62,
@@ -1415,7 +1464,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 20,
+      "rank": 21,
       "symbol": "SNDK",
       "name": "Sandisk Corporation",
       "sources": [
@@ -1457,7 +1506,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 21,
+      "rank": 22,
       "symbol": "BBD",
       "name": "Banco Bradesco Sa",
       "sources": [
@@ -1466,7 +1515,7 @@
       "session": "2026-11-27",
       "price": 2.8,
       "changePct": 15.23,
-      "volume": 113425778,
+      "volume": 114087668,
       "scores": {
         "scout": 88,
         "news": 50,
@@ -1499,7 +1548,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 22,
+      "rank": 23,
       "symbol": "SBS",
       "name": "Companhia de saneamento Basico ",
       "sources": [
@@ -1508,7 +1557,7 @@
       "session": "2026-11-27",
       "price": 5.41,
       "changePct": 11.32,
-      "volume": 13245717,
+      "volume": 13246172,
       "scores": {
         "scout": 88,
         "news": 50,
@@ -1540,7 +1589,48 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 23,
+      "rank": 24,
+      "symbol": "JPM",
+      "name": "JP Morgan Chase & Co.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-27",
+      "price": 322.96,
+      "changePct": 1.96,
+      "volume": 3514708,
+      "scores": {
+        "scout": 68,
+        "news": 62,
+        "sentiment": 62,
+        "composite": 64
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 13,
+      "entry": 322.96,
+      "stop": 311.66,
+      "target": 343.3,
+      "reasons": [
+        "有一定波動",
+        "今日上漲",
+        "成交量尚可",
+        "利多關鍵字 ×1",
+        "溫和上漲",
+        "新聞淨利多 +1",
+        "成交量偏高"
+      ],
+      "headlines": [
+        "Why JPMorgan Chase Fans May Look To ETFs Right Now",
+        "Weekly Wrap: Bitcoin Struggles As Latest Rally Fails"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 25,
       "symbol": "HD",
       "name": "Home Depot, Inc. (The)",
       "sources": [
@@ -1549,7 +1639,7 @@
       "session": "2026-11-27",
       "price": 362.15,
       "changePct": 0.25,
-      "volume": 1603595,
+      "volume": 2362041,
       "scores": {
         "scout": 53,
         "news": 74,
@@ -1580,48 +1670,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 24,
-      "symbol": "AAPL",
-      "name": "Apple Inc.",
-      "sources": [
-        "watch"
-      ],
-      "session": "2026-11-27",
-      "price": 358.54,
-      "changePct": 0.83,
-      "volume": 21599470,
-      "scores": {
-        "scout": 58,
-        "news": 62,
-        "sentiment": 62,
-        "composite": 61
-      },
-      "decision": "reduce",
-      "action": "reduce",
-      "decisionText": "縮小部位執行",
-      "riskPass": true,
-      "suggestedShares": 11,
-      "entry": 358.54,
-      "stop": 345.99,
-      "target": 381.13,
-      "reasons": [
-        "波動較小",
-        "今日上漲",
-        "成交量較大",
-        "利多關鍵字 ×1",
-        "小幅上漲",
-        "新聞淨利多 +1",
-        "成交量明顯放大"
-      ],
-      "headlines": [
-        "Amazon, Target and Walmart Chase Holiday Toy Spending",
-        "New $799 smart glasses challenge Apple, but with a major catch"
-      ],
-      "outcome": "skipped",
-      "outcomeText": "只建議縮小，自動不進場"
-    },
-    {
-      "rank": 25,
+      "rank": 26,
       "symbol": "GRAB",
       "name": "Grab Holdings Limited",
       "sources": [
@@ -1662,17 +1711,16 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 26,
-      "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
+      "rank": 27,
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
       "sources": [
-        "watch",
-        "active"
+        "watch"
       ],
       "session": "2026-11-27",
-      "price": 150.49,
-      "changePct": 0.8,
-      "volume": 180940449,
+      "price": 492.85,
+      "changePct": 0.6,
+      "volume": 12423912,
       "scores": {
         "scout": 58,
         "news": 62,
@@ -1683,10 +1731,10 @@
       "action": "reduce",
       "decisionText": "縮小部位執行",
       "riskPass": true,
-      "suggestedShares": 28,
-      "entry": 150.49,
-      "stop": 145.22,
-      "target": 159.98,
+      "suggestedShares": 8,
+      "entry": 492.85,
+      "stop": 475.6,
+      "target": 523.9,
       "reasons": [
         "波動較小",
         "今日上漲",
@@ -1698,14 +1746,55 @@
         "成交量明顯放大"
       ],
       "headlines": [
-        "TSLA Stock Clocks Best Week In 18 Months: Tesla Reportedly Eyes Buying German Toolmaker Amid Cybercab, Optimus Scaling Plans",
-        "Dow Jones Futures: Stock Market Makes Bullish Move, Tesla Leads 7 New Buys; Nvidia's Jensen Huang Heads To Capitol Hill"
+        "Billionaire Chase Coleman’s Tiger Global Raised Its Cerebras Stake 48% to $790 Million",
+        "5 Best Tech Stocks to Buy for 2027 According to Hedge Funds"
       ],
       "outcome": "skipped",
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 27,
+      "rank": 28,
+      "symbol": "XOM",
+      "name": "ExxonMobil Holdings Corporation",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-27",
+      "price": 160.18,
+      "changePct": 1.33,
+      "volume": 8348583,
+      "scores": {
+        "scout": 58,
+        "news": 62,
+        "sentiment": 62,
+        "composite": 61
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 26,
+      "entry": 160.18,
+      "stop": 154.57,
+      "target": 170.28,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "利多關鍵字 ×1",
+        "小幅上漲",
+        "新聞淨利多 +1",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "XOM Boosts Angola Prospects With Kizomba Redevelopment & New Discovery",
+        "Plug Power Surges 8% Amid Turnaround Hope: Was $1 the Permanent Floor for PLUG Stock?"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 29,
       "symbol": "GUNN",
       "name": "Gunnison Copper Corp.",
       "sources": [
@@ -1714,7 +1803,7 @@
       "session": "2026-11-27",
       "price": 6.38,
       "changePct": 23.88,
-      "volume": 37039,
+      "volume": 37060,
       "scores": {
         "scout": 78,
         "news": 50,
@@ -1746,7 +1835,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 28,
+      "rank": 30,
       "symbol": "SKE",
       "name": "Skeena Resources Limited",
       "sources": [
@@ -1755,7 +1844,7 @@
       "session": "2026-11-27",
       "price": 29.14,
       "changePct": 12.38,
-      "volume": 428445,
+      "volume": 431584,
       "scores": {
         "scout": 78,
         "news": 50,
@@ -1787,48 +1876,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 29,
-      "symbol": "XOM",
-      "name": "ExxonMobil Holdings Corporation",
-      "sources": [
-        "watch"
-      ],
-      "session": "2026-11-27",
-      "price": 160.18,
-      "changePct": 1.33,
-      "volume": 6921686,
-      "scores": {
-        "scout": 58,
-        "news": 62,
-        "sentiment": 58,
-        "composite": 59
-      },
-      "decision": "reduce",
-      "action": "reduce",
-      "decisionText": "縮小部位執行",
-      "riskPass": true,
-      "suggestedShares": 26,
-      "entry": 160.18,
-      "stop": 154.57,
-      "target": 170.28,
-      "reasons": [
-        "波動較小",
-        "今日上漲",
-        "成交量較大",
-        "利多關鍵字 ×1",
-        "小幅上漲",
-        "新聞淨利多 +1",
-        "成交量偏高"
-      ],
-      "headlines": [
-        "XOM Boosts Angola Prospects With Kizomba Redevelopment & New Discovery",
-        "Plug Power Surges 8% Amid Turnaround Hope: Was $1 the Permanent Floor for PLUG Stock?"
-      ],
-      "outcome": "skipped",
-      "outcomeText": "只建議縮小，自動不進場"
-    },
-    {
-      "rank": 30,
+      "rank": 31,
       "symbol": "COHR",
       "name": "Coherent Corp.",
       "sources": [
@@ -1837,7 +1885,7 @@
       "session": "2026-11-27",
       "price": 223.79,
       "changePct": 14.07,
-      "volume": 6972190,
+      "volume": 7074515,
       "scores": {
         "scout": 88,
         "news": 38,
@@ -1870,47 +1918,49 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 31,
-      "symbol": "JPM",
-      "name": "JP Morgan Chase & Co.",
+      "rank": 32,
+      "symbol": "V",
+      "name": "Visa Inc.",
       "sources": [
         "watch"
       ],
       "session": "2026-11-27",
-      "price": 322.96,
-      "changePct": 1.96,
-      "volume": 3444936,
+      "price": 429.56,
+      "changePct": 1.22,
+      "volume": 3683839,
       "scores": {
-        "scout": 68,
-        "news": 50,
-        "sentiment": 56,
+        "scout": 53,
+        "news": 62,
+        "sentiment": 58,
         "composite": 58
       },
       "decision": "reduce",
       "action": "reduce",
       "decisionText": "縮小部位執行",
       "riskPass": true,
-      "suggestedShares": 13,
-      "entry": 322.96,
-      "stop": 311.66,
-      "target": 343.3,
+      "suggestedShares": 9,
+      "entry": 429.56,
+      "stop": 414.53,
+      "target": 456.61,
       "reasons": [
-        "有一定波動",
+        "波動較小",
         "今日上漲",
         "成交量尚可",
-        "溫和上漲",
-        "新聞極性中性",
+        "利多關鍵字 ×2",
+        "利空關鍵字 ×1",
+        "小幅上漲",
+        "新聞淨利多 +1",
         "成交量偏高"
       ],
       "headlines": [
-        "Banks Facing Bond Price-Fixing Trial Agree to Pay Over $400 Million",
-        "DICK'S Sporting Goods (DKS) Stock Sees Fair Value Lift After Q3 Driven Analyst Revisions"
+        "Billionaire Andreas Halvorsen’s Viking Opened an $818 Million Mastercard Stake While Cutting Its Visa Shares 32.6%",
+        "Every Holiday Swipe Pays a Toll—And These 2 Buffett Stocks Own It"
       ],
       "outcome": "skipped",
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 32,
+      "rank": 33,
       "symbol": "UNH",
       "name": "UnitedHealth Group Incorporated",
       "sources": [
@@ -1919,7 +1969,7 @@
       "session": "2026-11-27",
       "price": 351.41,
       "changePct": 1.51,
-      "volume": 2545239,
+      "volume": 2990447,
       "scores": {
         "scout": 68,
         "news": 50,
@@ -1951,7 +2001,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 33,
+      "rank": 34,
       "symbol": "COST",
       "name": "Costco Wholesale Corporation",
       "sources": [
@@ -1991,7 +2041,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 34,
+      "rank": 35,
       "symbol": "MA",
       "name": "Mastercard Incorporated",
       "sources": [
@@ -2000,7 +2050,7 @@
       "session": "2026-11-27",
       "price": 666.96,
       "changePct": 1.06,
-      "volume": 1456630,
+      "volume": 1661146,
       "scores": {
         "scout": 53,
         "news": 62,
@@ -2025,14 +2075,54 @@
         "新聞淨利多 +1"
       ],
       "headlines": [
-        "Can Holiday Bargain Hunting Boost Visa's Cross-Border Business?",
-        "Can American Express Deliver Mid-Teens EPS Growth in 2027?"
+        "Billionaire Andreas Halvorsen’s Viking Opened an $818 Million Mastercard Stake While Cutting Its Visa Shares 32.6%",
+        "Every Holiday Swipe Pays a Toll—And These 2 Buffett Stocks Own It"
       ],
       "outcome": "skipped",
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 35,
+      "rank": 36,
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "sources": [
+        "watch"
+      ],
+      "session": "2026-11-27",
+      "price": 358.54,
+      "changePct": 0.83,
+      "volume": 21599470,
+      "scores": {
+        "scout": 58,
+        "news": 50,
+        "sentiment": 56,
+        "composite": 55
+      },
+      "decision": "reduce",
+      "action": "reduce",
+      "decisionText": "縮小部位執行",
+      "riskPass": true,
+      "suggestedShares": 11,
+      "entry": 358.54,
+      "stop": 345.99,
+      "target": 381.13,
+      "reasons": [
+        "波動較小",
+        "今日上漲",
+        "成交量較大",
+        "小幅上漲",
+        "新聞極性中性",
+        "成交量明顯放大"
+      ],
+      "headlines": [
+        "AI Chip Stocks Swung Wildly—While Warren Buffett’s Apple Climbed 26%",
+        "Amazon, Target and Walmart Chase Holiday Toy Spending"
+      ],
+      "outcome": "skipped",
+      "outcomeText": "只建議縮小，自動不進場"
+    },
+    {
+      "rank": 37,
       "symbol": "PG",
       "name": "Procter & Gamble Company (The)",
       "sources": [
@@ -2041,7 +2131,7 @@
       "session": "2026-11-27",
       "price": 172.86,
       "changePct": -0.21,
-      "volume": 3893154,
+      "volume": 3947179,
       "scores": {
         "scout": 40,
         "news": 62,
@@ -2073,43 +2163,7 @@
       "outcomeText": "只建議縮小，自動不進場"
     },
     {
-      "rank": 36,
-      "symbol": "JNJ",
-      "name": "Johnson & Johnson",
-      "sources": [
-        "watch"
-      ],
-      "session": "2026-11-27",
-      "price": 275.51,
-      "changePct": 0.57,
-      "volume": 2932130,
-      "scores": {
-        "scout": 53,
-        "news": 50,
-        "sentiment": 48,
-        "composite": 50
-      },
-      "decision": "skip",
-      "action": "reject",
-      "decisionText": "拒絕：綜合分數偏低",
-      "riskPass": true,
-      "suggestedShares": 15,
-      "entry": 275.51,
-      "stop": 265.87,
-      "target": 292.86,
-      "reasons": [
-        "波動較小",
-        "今日上漲",
-        "成交量尚可",
-        "小幅上漲",
-        "無足夠新聞參考"
-      ],
-      "headlines": [],
-      "outcome": "skipped",
-      "outcomeText": "拒絕：綜合分數偏低"
-    },
-    {
-      "rank": 37,
+      "rank": 38,
       "symbol": "VERA",
       "name": "Vera Therapeutics, Inc.",
       "sources": [
@@ -2151,7 +2205,7 @@
       "outcomeText": "拒絕：綜合分數偏低"
     },
     {
-      "rank": 38,
+      "rank": 39,
       "symbol": "BRK-B",
       "name": "Berkshire Hathaway Inc. New",
       "sources": [
@@ -2160,7 +2214,7 @@
       "session": "2026-11-27",
       "price": 580.79,
       "changePct": 0.25,
-      "volume": 2123367,
+      "volume": 2412109,
       "scores": {
         "scout": 53,
         "news": 50,
@@ -2187,7 +2241,7 @@
       "outcomeText": "拒絕：綜合分數偏低"
     },
     {
-      "rank": 39,
+      "rank": 40,
       "symbol": "LLY",
       "name": "Eli Lilly and Company",
       "sources": [
@@ -2196,7 +2250,7 @@
       "session": "2026-11-27",
       "price": 1392.38,
       "changePct": 0.01,
-      "volume": 1454447,
+      "volume": 1541610,
       "scores": {
         "scout": 53,
         "news": 50,
@@ -2224,50 +2278,9 @@
       ],
       "outcome": "skipped",
       "outcomeText": "拒絕：綜合分數偏低"
-    },
-    {
-      "rank": 40,
-      "symbol": "MSFT",
-      "name": "Microsoft Corporation",
-      "sources": [
-        "watch"
-      ],
-      "session": "2026-11-27",
-      "price": 492.85,
-      "changePct": 0.6,
-      "volume": 12423912,
-      "scores": {
-        "scout": 58,
-        "news": 38,
-        "sentiment": 50,
-        "composite": 49
-      },
-      "decision": "skip",
-      "action": "reject",
-      "decisionText": "拒絕：綜合分數偏低",
-      "riskPass": true,
-      "suggestedShares": 8,
-      "entry": 492.85,
-      "stop": 475.6,
-      "target": 523.9,
-      "reasons": [
-        "波動較小",
-        "今日上漲",
-        "成交量較大",
-        "利空關鍵字 ×1",
-        "小幅上漲",
-        "新聞淨利空 -1",
-        "成交量明顯放大"
-      ],
-      "headlines": [
-        "Should You Pick Palantir Over Its Big Tech Rivals?",
-        "IREN (NasdaqGS:IREN) Stock Sees Modest Fair Value Cut After AI Cloud Sentiment Swings"
-      ],
-      "outcome": "skipped",
-      "outcomeText": "拒絕：綜合分數偏低"
     }
   ],
-  "lastRankingAt": "2026-11-27T20:22:13.771Z",
+  "lastRankingAt": "2026-11-27T22:11:07.120Z",
   "stats": {
     "closedCount": 12,
     "wins": 6,
